@@ -1,0 +1,19 @@
+.dotContainer {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 78px;
+  left: 50%;
+  transform: translateX(-50%);
+  gap: 12px;
+  .dot {
+    width: 57px;
+    height: 8px;
+    background-color: #c1bcbc;
+    border-radius: 20px;
+    &Active {
+      background-color: #ffffff;
+    }
+  }
+}

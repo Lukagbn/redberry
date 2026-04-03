@@ -1,0 +1,42 @@
+.carousel {
+  margin-top: 64px;
+  .carouselWrapper {
+    position: relative;
+    .carouselTop {
+      top: 48px;
+      left: 48px;
+      position: absolute;
+      max-width: 1218px;
+      display: flex;
+      flex-direction: column;
+      height: 232px;
+      h2 {
+        line-height: 58.1px;
+        font-size: 48px;
+        font-weight: 800;
+        color: #ffffff;
+      }
+      p {
+        line-height: 29px;
+        font-size: 24px;
+        color: #ffffff;
+        font-weight: 300;
+        margin-top: 13px;
+      }
+    }
+    img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+  }
+}
+.btnWrapper {
+  position: absolute;
+  right: 48px;
+  bottom: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 35.1px;
+}

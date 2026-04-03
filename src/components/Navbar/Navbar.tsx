@@ -13,6 +13,7 @@ function Navbar() {
   return (
     <>
       <header className={`${styles.header} ${layout.container}`}>
+        <h1 className={styles.visuallyHidden}>Redberry</h1>
         <Logo />
         <div className={styles.navList}>
           {NAV_LIST.map((list) => (
