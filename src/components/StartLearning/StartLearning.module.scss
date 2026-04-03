@@ -1,0 +1,21 @@
+.startLearning {
+  margin-top: 64px;
+  h2 {
+    line-height: 48.4px;
+    font-size: 40px;
+    font-weight: 600;
+    color: #0a0a0a;
+  }
+  p {
+    margin-top: 6px;
+    line-height: 21.8px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #3d3d3d;
+  }
+  .cardContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+  }
+}

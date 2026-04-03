@@ -1,0 +1,15 @@
+.star {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  span {
+    line-height: 16.9px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #525252;
+  }
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
