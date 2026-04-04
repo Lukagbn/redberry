@@ -21,7 +21,7 @@
         font-size: 24px;
         color: #ffffff;
         font-weight: 300;
-        margin-top: 13px;
+        margin-top: 12px;
       }
     }
     img {
@@ -32,6 +32,8 @@
   }
 }
 .btnWrapper {
+  max-width: 132px;
+  width: 100%;
   position: absolute;
   right: 48px;
   bottom: 60px;

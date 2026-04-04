@@ -14,7 +14,7 @@ function Navbar() {
     <>
       <header className={`${styles.header} ${layout.container}`}>
         <h1 className={styles.visuallyHidden}>Redberry</h1>
-        <Logo />
+        <Logo width="60px" height="60px" iconWidth="29px" />
         <div className={styles.navList}>
           {NAV_LIST.map((list) => (
             <div key={list.title} className={styles.list}>
