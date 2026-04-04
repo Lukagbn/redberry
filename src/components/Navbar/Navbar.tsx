@@ -15,9 +15,9 @@ import BaseModal from "../BaseModal/BaseModal";
 function Navbar() {
   const pathname = usePathname();
   const [loggedIn, setLoggedIn] = useState<Boolean | false>(false);
-  const [activeModal, setActiveModal] = useState<"login" | "register" | null>(
-    null,
-  );
+  const [activeModal, setActiveModal] = useState<
+    "login" | "register" | "profile" | null
+  >(null);
   const NAV_LIST = [
     { img: "/icons/stars.svg", title: "browse courses" },
     { img: "/icons/book.svg", title: "enrolled courses" },
@@ -27,9 +27,9 @@ function Navbar() {
     : NAV_LIST.filter((item) => item.title === "browse courses");
   useEffect(() => {
     const user = checkUser();
+    console.log(user);
     setLoggedIn(user);
   }, [pathname]);
-  // localStorage.setItem("user", "true");
   return (
     <>
       <header className={`${styles.header} ${layout.container}`}>
@@ -97,7 +97,10 @@ function Navbar() {
           }
         >
           {activeModal === "login" ? (
-            <Login goToRegister={() => setActiveModal("register")} />
+            <Login
+              goToRegister={() => setActiveModal("register")}
+              onClose={() => setActiveModal(null)}
+            />
           ) : (
             <Register goToLogin={() => setActiveModal("login")} />
           )}

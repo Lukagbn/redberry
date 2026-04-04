@@ -5,10 +5,11 @@ import styles from "./FormGroup.module.scss";
 interface FormGroupProps {
   label: string;
   input: string;
+  error: string | null;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-function FormGroup({ label, input, onChange }: FormGroupProps) {
+function FormGroup({ label, input, error, onChange }: FormGroupProps) {
   const [passwordVisible, setPasswordVisible] = useState(false);
   return (
     <div className={styles.formGroup}>
@@ -48,7 +49,7 @@ function FormGroup({ label, input, onChange }: FormGroupProps) {
       ) : (
         <input type={input} id={label} onChange={onChange} />
       )}
-      <span className={styles.errorMessage}></span>
+      <span className={styles.errorMessage}>{error}</span>
     </div>
   );
 }
