@@ -5,10 +5,11 @@
   .navList {
     display: flex;
     align-items: center;
-    gap: 38px;
+    // gap: 38px;
     .list {
       display: flex;
       align-items: center;
+      width: 100%;
       gap: 8px;
       p {
         text-transform: capitalize;
@@ -16,7 +17,15 @@
         line-height: 24px;
         font-size: 20px;
         letter-spacing: 0px;
+        flex-shrink: 0;
       }
+    }
+    .authBtnWrapper {
+      display: flex;
+      align-items: center;
+      max-width: 254px;
+      width: 100%;
+      gap: 15px;
     }
   }
   .visuallyHidden {

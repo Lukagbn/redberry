@@ -41,6 +41,10 @@ a {
   text-decoration: none;
 }
 
+html.noScroll {
+  overflow: hidden;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
