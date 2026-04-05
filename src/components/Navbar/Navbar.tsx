@@ -8,16 +8,13 @@ import User from "../Icons/User/User";
 import { checkUser } from "@/utils/auth";
 import { usePathname } from "next/navigation";
 import Button from "../Buttons/Button/Button";
-import Login from "../BaseModal/Auth/Login/Login";
-import Register from "../BaseModal/Auth/Register/Register";
-import BaseModal from "../BaseModal/BaseModal";
+import { useAppDispatch } from "@/lib/hooks";
+import { openModal } from "@/lib/slices/modalSlice";
 
 function Navbar() {
   const pathname = usePathname();
+  const dispatch = useAppDispatch();
   const [loggedIn, setLoggedIn] = useState<Boolean | false>(false);
-  const [activeModal, setActiveModal] = useState<
-    "login" | "register" | "profile" | null
-  >(null);
   const NAV_LIST = [
     { img: "/icons/stars.svg", title: "browse courses" },
     { img: "/icons/book.svg", title: "enrolled courses" },
@@ -27,7 +24,6 @@ function Navbar() {
     : NAV_LIST.filter((item) => item.title === "browse courses");
   useEffect(() => {
     const user = checkUser();
-    console.log(user);
     setLoggedIn(user);
   }, [pathname]);
   return (
@@ -71,41 +67,20 @@ function Navbar() {
                 color="#4F46E5"
                 backgroundColor="transparent"
                 borderColor="2px solid #958FEF"
-                onClick={() => setActiveModal("login")}
+                onClick={() => dispatch(openModal("login"))}
               />
               <Button
                 title="sign up"
                 margin="0px"
                 height="60px"
                 width="125px"
-                onClick={() => setActiveModal("register")}
+                onClick={() => dispatch(openModal("register"))}
               />
             </div>
           )}
         </div>
       </header>
       <hr className={styles.hr} />
-      {activeModal && (
-        <BaseModal
-          title={activeModal === "login" ? "welcome back" : "Create Account"}
-          open={true}
-          onClose={() => setActiveModal(null)}
-          text={
-            activeModal === "login"
-              ? "Log in to continue your learning"
-              : "Join and start learning today"
-          }
-        >
-          {activeModal === "login" ? (
-            <Login
-              goToRegister={() => setActiveModal("register")}
-              onClose={() => setActiveModal(null)}
-            />
-          ) : (
-            <Register goToLogin={() => setActiveModal("login")} />
-          )}
-        </BaseModal>
-      )}
     </>
   );
 }

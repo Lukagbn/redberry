@@ -1,7 +1,11 @@
 import React from "react";
 import styles from "./User.module.scss";
+import { useAppDispatch } from "@/lib/hooks";
+import { openModal } from "@/lib/slices/modalSlice";
 
 function User() {
+  const dispatch = useAppDispatch();
+
   return (
     <div className={styles.user}>
       <svg
@@ -10,6 +14,7 @@ function User() {
         viewBox="0 0 38 38"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        onClick={() => dispatch(openModal("profile"))}
       >
         <path
           d="M30.0832 33.25V30.0833C30.0832 28.4036 29.4159 26.7927 28.2282 25.605C27.0404 24.4173 25.4295 23.75 23.7498 23.75H14.2498C12.5701 23.75 10.9592 24.4173 9.77149 25.605C8.58376 26.7927 7.9165 28.4036 7.9165 30.0833V33.25"

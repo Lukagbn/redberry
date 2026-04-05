@@ -24,7 +24,11 @@ function BaseModal({
     };
   }, [open]);
   return (
-    <div className={styles.overlay} onClick={onClose}>
+    <div
+      className={styles.overlay}
+      onClick={onClose}
+      style={{ display: open ? "flex" : "none" }}
+    >
       <dialog onClick={(e) => e.stopPropagation()} open={open}>
         <svg
           width="14"

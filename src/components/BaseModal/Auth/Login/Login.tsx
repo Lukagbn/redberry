@@ -3,26 +3,33 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import FormGroup from "../FormGroup/FormGroup";
 import Button from "@/components/Buttons/Button/Button";
 import ModalFooter from "../ModalFooter/ModalFooter";
-import styles from "./Login.module.scss";
+import BaseModal from "../../BaseModal";
+import { useAppSelector, useAppDispatch } from "@/lib/hooks";
+import { closeModal, openModal } from "@/lib/slices/modalSlice";
 
-function Login({
-  onClose,
-  goToRegister,
-}: {
-  onClose: () => void;
-  goToRegister: () => void;
-}) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+function Login() {
+  const dispatch = useAppDispatch();
+  const activeModal = useAppSelector((state) => state.modal.activeModal);
+  const isOpen = activeModal === "login";
+  const [email, setEmail] = useState<string | "">("");
+  const [password, setPassword] = useState<string | "">("");
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | "">("");
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
+  const goToRegister = () => {
+    dispatch(openModal("register"));
+  };
   function handleEmail(e: ChangeEvent<HTMLInputElement>) {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const inputValue = e.target.value;
     setEmail(inputValue);
-    if (!emailRegex.test(inputValue)) {
+    if (inputValue && !emailRegex.test(inputValue)) {
       setEmailError("Invalid email format!");
+    } else if (e.target.value.length === 0) {
+      setEmailError("Email required!");
     } else {
       setEmailError(null);
     }
@@ -30,29 +37,10 @@ function Login({
   function handlePassword(e: ChangeEvent<HTMLInputElement>) {
     const inputValue = e.target.value;
     setPassword(inputValue);
-    if (inputValue.length < 3) {
-      setPasswordError("Invalid Password!");
+    if (inputValue.length === 0) {
+      setPasswordError("Password required!");
     } else {
       setPasswordError(null);
-    }
-  }
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    let hasError = false;
-
-    if (!email) {
-      setEmailError("Email is required!");
-      hasError = true;
-    }
-    if (!password) {
-      setPasswordError("Password is required!");
-      hasError = true;
-    }
-    if (emailError || passwordError) {
-      hasError = true;
-    }
-    if (!hasError) {
-      handleLogIn({ email, password });
     }
   }
   async function handleLogIn(data: { email: string; password: string }) {
@@ -70,45 +58,71 @@ function Login({
       );
       const result = await res.json();
       if (!res.ok) {
-        setError("Wrong Creditails!");
+        setEmailError("Email required!");
+        setPasswordError("Password required!");
+        setSubmitError("Wrong Creditails!");
         return;
       }
       localStorage.setItem("user", result.data.token);
-      onClose();
+      // localStorage.setItem("data", JSON.stringify(result.data.user));
+      handleClose();
       window.location.reload();
     } catch (error) {
       console.log(error);
     }
   }
   return (
-    <form
-      onSubmit={(e) => {
-        handleSubmit(e);
-      }}
+    <BaseModal
+      title="Welcome Back"
+      open={isOpen}
+      onClose={handleClose}
+      text="Log in to continue your learning"
     >
-      <FormGroup
-        label="Email"
-        input="email"
-        onChange={handleEmail}
-        error={emailError}
-      />
-      <FormGroup
-        label="password"
-        input="password"
-        onChange={handlePassword}
-        error={passwordError}
-      />
-      <Button width="100%" height="47px" title="log in" />
-      <span className={styles.loginError}>{error ? error : null}</span>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleLogIn({ email, password });
+        }}
+      >
+        <FormGroup
+          label="Email"
+          input="email"
+          placeHolder="Email"
+          onChange={handleEmail}
+          error={emailError}
+          value={email}
+        />
+        <FormGroup
+          label="Password"
+          input="password"
+          placeHolder="Password"
+          onChange={handlePassword}
+          error={passwordError}
+          value={password}
+        />
+        <Button width="100%" height="47px" title="log in" />
 
-      <ModalFooter
-        text="Don’t have an account?"
-        linkText="Sign Up"
-        href={"#"}
-        onClick={goToRegister}
-      />
-    </form>
+        <span
+          style={{
+            color: "red",
+            fontSize: "14px",
+            display: "block",
+            marginTop: "10px",
+            height: "20px",
+            textAlign: "center",
+          }}
+        >
+          {submitError}
+        </span>
+
+        <ModalFooter
+          text="Don’t have an account?"
+          linkText="Sign Up"
+          href={"#"}
+          onClick={goToRegister}
+        />
+      </form>
+    </BaseModal>
   );
 }
-
 export default Login;

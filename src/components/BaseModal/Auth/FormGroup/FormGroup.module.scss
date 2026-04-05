@@ -5,9 +5,6 @@
     font-size: 14px;
     font-weight: 500;
     text-transform: capitalize;
-    &Error {
-      color: #f4161a;
-    }
   }
   input {
     margin-top: 8px;
@@ -20,11 +17,7 @@
     font-size: 14px;
     font-weight: 500;
     padding: 12px;
-    border: 1.5px solid #8a8a8a;
     outline: none;
-    &Error {
-      border: 1px solid #f4161a;
-    }
   }
   .errorMessage {
     display: block;
@@ -40,5 +33,8 @@
       cursor: pointer;
       right: 15px;
     }
+  }
+  .imageInput {
+    height: 140px;
   }
 }
