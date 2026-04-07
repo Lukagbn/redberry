@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import FormGroup from "../Auth/FormGroup/FormGroup";
 import User from "@/components/Icons/User/User";
 import Button from "@/components/Buttons/Button/Button";
+import { setUser } from "@/lib/slices/userSlice";
 
 interface UserApiResponse {
   data: UserProps;
@@ -24,8 +25,9 @@ interface UserProps {
 
 function Profile() {
   const dispatch = useAppDispatch();
+  const userData = useAppSelector((state) => state.user);
   const activeModal = useAppSelector((state) => state.modal.activeModal);
-  const [user, setUser] = useState<UserProps | null>(null);
+  const [user, setLocalUser] = useState<UserProps | null>(null);
   const [username, setUsername] = useState<string | "">("");
   const [usernameError, setUsernameError] = useState<string | null>(null);
   const [phone, setPhone] = useState<string | "">("");
@@ -52,7 +54,8 @@ function Profile() {
         },
       );
       const result: UserApiResponse = await res.json();
-      setUser(result.data);
+      setLocalUser(result.data);
+      dispatch(setUser(result.data));
     } catch (error) {
       console.log(error);
     }
@@ -77,7 +80,7 @@ function Profile() {
       );
       const result = await res.json();
       if (res.ok) {
-        setUser(result.data);
+        setLocalUser(result.data);
         handleClose();
       } else {
         setError(result.message);
@@ -134,6 +137,9 @@ function Profile() {
   useEffect(() => {
     fetchUser();
   }, []);
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
   if (!user) return;
   return (
     <BaseModal title="Profile" onClose={handleClose} open={isOpen}>

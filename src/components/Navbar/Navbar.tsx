@@ -14,6 +14,8 @@ import { openModal } from "@/lib/slices/modalSlice";
 function Navbar() {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
+  const userData = useAppSelector((state) => state.user);
+  const [image, setImage] = useState<string | null>(null);
   const [loggedIn, setLoggedIn] = useState<Boolean | false>(false);
   const NAV_LIST = [
     { img: "/icons/stars.svg", title: "browse courses" },
@@ -26,6 +28,9 @@ function Navbar() {
     const user = checkUser();
     setLoggedIn(user);
   }, [pathname]);
+  useEffect(() => {
+    setImage(userData?.avatar ?? null);
+  }, [userData]);
   return (
     <>
       <header className={`${styles.header} ${layout.container}`}>
@@ -56,7 +61,7 @@ function Navbar() {
             </div>
           ))}
           {loggedIn ? (
-            <User />
+            <User src={image ?? ""} />
           ) : (
             <div className={styles.authBtnWrapper}>
               <Button

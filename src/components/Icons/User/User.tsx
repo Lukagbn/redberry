@@ -8,7 +8,11 @@ function User({ margin, src }: { margin?: string; src?: string }) {
   const dispatch = useAppDispatch();
 
   return (
-    <div className={styles.user} style={{ margin: margin }}>
+    <div
+      className={styles.user}
+      style={{ margin: margin }}
+      onClick={() => dispatch(openModal("profile"))}
+    >
       {src ? (
         <Image src={src} width={38} height={38} alt="profile" />
       ) : (
@@ -18,7 +22,6 @@ function User({ margin, src }: { margin?: string; src?: string }) {
           viewBox="0 0 38 38"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          onClick={() => dispatch(openModal("profile"))}
           cursor="pointer"
         >
           <path
