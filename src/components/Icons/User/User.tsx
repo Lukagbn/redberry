@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./User.module.scss";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { openModal } from "@/lib/slices/modalSlice";
 import Image from "next/image";
 
-function User({ margin, src }: { margin?: string; src?: string }) {
+function User({
+  margin,
+  src,
+  profileComplete,
+}: {
+  margin?: string;
+  src?: string;
+  profileComplete: boolean;
+}) {
   const dispatch = useAppDispatch();
-
   return (
     <div
       className={styles.user}
@@ -40,7 +47,14 @@ function User({ margin, src }: { margin?: string; src?: string }) {
           />
         </svg>
       )}
-      <div className={styles.dot}></div>
+
+      <div
+        className={
+          profileComplete
+            ? `${styles.dot}`
+            : `${styles.dot} ${styles.dotIncomplete}`
+        }
+      ></div>
     </div>
   );
 }

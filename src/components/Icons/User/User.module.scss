@@ -25,5 +25,8 @@
     bottom: -3px;
     background-color: #1dc31d;
     border: 3px solid#ffff;
+    &Incomplete {
+      background-color: #f4a316;
+    }
   }
 }

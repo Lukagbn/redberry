@@ -27,10 +27,8 @@ function Navbar() {
   useEffect(() => {
     const user = checkUser();
     setLoggedIn(user);
-  }, [pathname]);
-  useEffect(() => {
-    setImage(userData?.avatar ?? null);
-  }, [userData]);
+  }, [pathname, userData]);
+
   return (
     <>
       <header className={`${styles.header} ${layout.container}`}>
@@ -61,7 +59,10 @@ function Navbar() {
             </div>
           ))}
           {loggedIn ? (
-            <User src={image ?? ""} />
+            <User
+              src={image ?? ""}
+              profileComplete={userData?.profileComplete}
+            />
           ) : (
             <div className={styles.authBtnWrapper}>
               <Button

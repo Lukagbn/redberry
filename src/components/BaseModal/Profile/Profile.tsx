@@ -105,10 +105,6 @@ function Profile() {
     if (input.length < 3) {
       setUsernameError("username must be at least 3 characters!");
       return;
-    }
-    if (input === user?.username) {
-      setUsernameError("username must be different!");
-      return;
     } else {
       setUsernameError(null);
       return;
@@ -136,16 +132,17 @@ function Profile() {
   }
   useEffect(() => {
     fetchUser();
-  }, []);
-  useEffect(() => {
-    console.log(userData);
   }, [userData]);
   if (!user) return;
   return (
     <BaseModal title="Profile" onClose={handleClose} open={isOpen}>
       <div className={styles.profileModal}>
         <div className={styles.avatarWrapper}>
-          <User margin="0px" src={imagePreview ?? user.avatar} />
+          <User
+            margin="0px"
+            src={imagePreview ?? user.avatar}
+            profileComplete={userData?.profileComplete}
+          />
           <div className={styles.usernameWrapper}>
             <h3 className={styles.username}>{user.username}</h3>
             {user.profileComplete ? (
