@@ -195,7 +195,7 @@ function Register() {
         setSubmitError(result.message || "Registration failed!");
         return;
       }
-      localStorage.setItem("user", result.data.token);
+      localStorage.setItem("token", result.data.token);
       handleClose();
       window.location.reload();
     } catch (error) {

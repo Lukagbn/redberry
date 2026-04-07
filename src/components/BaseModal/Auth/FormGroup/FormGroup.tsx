@@ -8,7 +8,10 @@ interface FormGroupProps {
   placeHolder: string;
   value?: string;
   accept?: string;
-  error: string | null;
+  maxWidth?: string;
+  maxLength?: number;
+  inputMode?: string;
+  error?: string | null;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -18,6 +21,8 @@ function FormGroup({
   placeHolder,
   value,
   accept,
+  maxWidth,
+  maxLength,
   error,
   onChange,
 }: FormGroupProps) {
@@ -33,10 +38,17 @@ function FormGroup({
               onChange={onChange}
               placeholder={placeHolder}
               value={value}
+              maxLength={maxLength}
               style={
                 error
-                  ? { border: "1.5px solid #F4161A", color: "#F4161A" }
-                  : { border: "1.5px solid #8a8a8a", color: "#8a8a8a" }
+                  ? {
+                      border: "1.5px solid #F4161A",
+                      color: "#F4161A",
+                    }
+                  : {
+                      border: "1.5px solid #8a8a8a",
+                      color: "#8a8a8a",
+                    }
               }
             />
             <svg
@@ -75,10 +87,17 @@ function FormGroup({
             placeholder={placeHolder}
             value={value}
             accept={accept}
+            maxLength={maxLength}
             style={
               error
-                ? { border: "1.5px solid #F4161A", color: "#F4161A" }
-                : { border: "1.5px solid #8a8a8a", color: "#8a8a8a" }
+                ? {
+                    border: "1.5px solid #F4161A",
+                    color: "#F4161A",
+                  }
+                : {
+                    border: "1.5px solid #8a8a8a",
+                    color: "#8a8a8a",
+                  }
             }
           />
         );
@@ -90,17 +109,24 @@ function FormGroup({
             onChange={onChange}
             placeholder={placeHolder}
             value={value}
+            maxLength={maxLength}
             style={
               error
-                ? { border: "1.5px solid #F4161A", color: "#F4161A" }
-                : { border: "1.5px solid #8a8a8a", color: "#8a8a8a" }
+                ? {
+                    border: "1.5px solid #F4161A",
+                    color: "#F4161A",
+                  }
+                : {
+                    border: "1.5px solid #8a8a8a",
+                    color: "#8a8a8a",
+                  }
             }
           />
         );
     }
   };
   return (
-    <div className={styles.formGroup}>
+    <div className={styles.formGroup} style={{ maxWidth: maxWidth }}>
       <label
         htmlFor={label}
         style={error ? { color: "red" } : { color: "#3D3D3D" }}

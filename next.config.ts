@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         hostname: "api.redclass.redberryinternship.ge",
         pathname: "/storage/courses/**",
       },
+      {
+        protocol: "https",
+        hostname: "api.redclass.redberryinternship.ge",
+        pathname: "/storage/avatars/**",
+      },
     ],
   },
 };

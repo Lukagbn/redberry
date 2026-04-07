@@ -63,7 +63,7 @@ function Login() {
         setSubmitError("Wrong Creditails!");
         return;
       }
-      localStorage.setItem("user", result.data.token);
+      localStorage.setItem("token", result.data.token);
       // localStorage.setItem("data", JSON.stringify(result.data.user));
       handleClose();
       window.location.reload();

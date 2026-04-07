@@ -47,13 +47,7 @@ function Footer() {
             </p>
             <div className={styles.iconWrapper}>
               {FOOTER_ICONS.map((icon, index) => (
-                <img
-                  key={index}
-                  src={icon.img}
-                  // width={19}
-                  // height={19}
-                  alt="icon"
-                />
+                <img key={index} src={icon.img} alt="icon" />
               ))}
             </div>
           </div>

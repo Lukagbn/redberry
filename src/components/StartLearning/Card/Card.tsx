@@ -1,12 +1,14 @@
+"use client";
 import React from "react";
 import styles from "./Card.module.scss";
 import Button from "@/components/Buttons/Button/Button";
 import Star from "@/components/Star/Star";
 import Image from "next/image";
 import { text } from "stream/consumers";
+import { useRouter } from "next/navigation";
 
 export interface CardProps {
-  id: number;
+  id?: number;
   title: string;
   description: string;
   image: string;
@@ -28,6 +30,10 @@ function Card({
   avgRating,
   instructor,
 }: CardProps) {
+  const router = useRouter();
+  function goTo() {
+    router.push(`/courses/${id}`);
+  }
   return (
     <div className={styles.card}>
       <Image width={466} height={262} src={image} alt={title} />
@@ -46,7 +52,13 @@ function Card({
           Starting from
           <span>${basePrice}</span>
         </p>
-        <Button title="Details" width="116px" height="58px" margin="0px" />
+        <Button
+          title="Details"
+          width="116px"
+          height="58px"
+          margin="0px"
+          onClick={goTo}
+        />
       </div>
     </div>
   );

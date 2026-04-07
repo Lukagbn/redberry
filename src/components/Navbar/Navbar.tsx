@@ -8,7 +8,7 @@ import User from "../Icons/User/User";
 import { checkUser } from "@/utils/auth";
 import { usePathname } from "next/navigation";
 import Button from "../Buttons/Button/Button";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { openModal } from "@/lib/slices/modalSlice";
 
 function Navbar() {
