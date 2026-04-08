@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import layout from "@/app/layout.module.scss";
 import styles from "./page.module.scss";
 import Star from "@/components/Star/Star";
+import SessionType from "@/components/SessionType/SessionType";
 
 interface CourseApiResponse {
   data: CourseProps;
@@ -91,6 +92,7 @@ function page() {
           <p>{course.description}</p>
         </div>
       </div>
+      <SessionType id={id as string} basePrice={course.basePrice} />
     </section>
   );
 }

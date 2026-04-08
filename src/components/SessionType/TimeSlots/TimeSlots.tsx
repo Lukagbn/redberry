@@ -1,0 +1,82 @@
+import React, { useEffect, useState } from "react";
+import styles from "./TimeSlots.module.scss";
+
+export interface TimeSlot {
+  endTime: string;
+  id: number;
+  label: string;
+  startTime: string;
+}
+interface TimeSlotApiResponse {
+  data: TimeSlot[];
+}
+
+const images: Record<string, string> = {
+  morning: "/icons/morning.svg",
+  afternoon: "/icons/afternoon.svg",
+  evening: "/icons/evening.svg",
+};
+
+function getImage(label: string): string {
+  const key = Object.keys(images).find((k) => label.toLowerCase().includes(k));
+  return key ? images[key] : "#";
+}
+
+function TimeSlots({
+  id,
+  alreadyClicked,
+  onSlotClick,
+}: {
+  id: string;
+  alreadyClicked: number | null;
+  onSlotClick: (id: number) => void;
+}) {
+  const [clicked, setClicked] = useState<number | null>(null);
+  const [timeSlots, setTimeSlots] = useState<TimeSlot[] | null>(null);
+  async function fetchTimeSlots() {
+    try {
+      const res = await fetch(
+        `https://api.redclass.redberryinternship.ge/api/courses/${id}/time-slots?weekly_schedule_id=${alreadyClicked ?? null}`,
+      );
+      const result: TimeSlotApiResponse = await res.json();
+      setTimeSlots(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    if (!alreadyClicked) return;
+    fetchTimeSlots();
+  }, [alreadyClicked]);
+  return (
+    <div className={styles.timeSlotsContainer}>
+      {timeSlots?.map((item) => {
+        let fullTime = item.label.split(" ");
+        let day = fullTime[0];
+        let time = fullTime.slice(1, fullTime.length).join(" ");
+        return (
+          <div
+            key={item.id}
+            onClick={() => {
+              setClicked(item.id);
+              onSlotClick(item.id);
+            }}
+            className={
+              clicked === item.id
+                ? `${styles.slot} ${styles.slotActive}`
+                : `${styles.slot}`
+            }
+          >
+            <img src={getImage(item.label)} alt={item.label} />
+            <div>
+              <p className={styles.day}>{day}</p>
+              <p className={styles.time}>{time}</p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+export default TimeSlots;

@@ -1,0 +1,77 @@
+.cardContainer {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  .card {
+    max-width: 171px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .cardWrapper {
+      flex-direction: column;
+      width: 100%;
+      cursor: pointer;
+      border: 1px solid #d1d1d1;
+      border-radius: 12px;
+      justify-content: center;
+      align-items: center;
+      height: 91px;
+      transition: all 0.2s ease-in-out;
+      display: flex;
+      height: 131px;
+      justify-content: space-evenly;
+      background-color: #ffffff;
+      &Blocked {
+        cursor: not-allowed;
+        border-color: #d1d1d1;
+        background-color: #f5f5f5 !important;
+        p {
+          color: #d1d1d1 !important;
+        }
+      }
+      &Active {
+        background-color: #dddbfa;
+        border: 1px solid #958fef;
+        p {
+          color: #4f46e5 !important;
+        }
+      }
+      .name {
+        font-size: 16px;
+        line-height: 19.4px;
+        font-weight: 600;
+        color: #525252;
+      }
+      .location {
+        font-size: 12px;
+        line-height: 14.5px;
+        color: #525252;
+      }
+      .price {
+        font-size: 14px;
+        line-height: 16.9px;
+        color: #736bea;
+        font-weight: 500;
+      }
+      &:not(&Blocked):hover {
+        background-color: #dddbfa;
+        border: 1px solid #958fef;
+        p {
+          color: #4f46e5 !important;
+        }
+      }
+    }
+  }
+  .availableSeats {
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 14.5px;
+    font-weight: 500;
+    color: #3d3d3d;
+    &Blocked {
+      color: #d1d1d1 !important;
+    }
+  }
+}

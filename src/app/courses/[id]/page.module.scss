@@ -1,6 +1,8 @@
 .courseContainer {
   margin-top: 67px;
   margin-bottom: 225px;
+  display: flex;
+  justify-content: space-between;
   .courseDetails {
     max-width: 903px;
     width: 100%;

@@ -1,0 +1,101 @@
+.sessionTypeContainer {
+  max-width: 530px;
+  width: 100%;
+  .sessionCardContainer {
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    .sessionCard {
+      border-radius: 12px;
+      border: 1px solid #d1d1d1;
+      height: 91px;
+      max-width: 123px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.2s ease-in-out;
+      background-color: #ffffff;
+      h5 {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 19.4px;
+        color: #292929;
+      }
+      &:hover {
+        border: 1px solid #958fef;
+        background-color: #dddbfa;
+        h5 {
+          color: #4f46e5;
+        }
+      }
+      &Active {
+        border: 1px solid #958fef;
+        background-color: #dddbfa;
+        h5 {
+          color: #4f46e5;
+        }
+      }
+    }
+  }
+  .totalPrice {
+    margin-top: 32px;
+    height: 306px;
+    border: 1px solid #f5f5f5;
+    border-radius: 12px;
+    background-color: #ffffff;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    .priceBox {
+      display: flex;
+      justify-content: space-between;
+      margin-block: 12px;
+      p {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 500;
+        color: #8a8a8a;
+      }
+      span {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 500;
+        color: #292929;
+      }
+    }
+    .total {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      p {
+        font-size: 20px;
+        line-height: 24px;
+        font-weight: 600;
+        color: #8a8a8a;
+      }
+      span {
+        font-size: 32px;
+        line-height: 38.7px;
+        font-weight: 600;
+        color: #292929;
+      }
+    }
+    .enrollNow {
+      margin-top: auto;
+      height: 63px;
+      color: #b7b3f4;
+      background-color: #eeedfc;
+      width: 100%;
+      border: none;
+      outline: none;
+      border-radius: 12px;
+      font-size: 20px;
+      line-height: 24px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  }
+}

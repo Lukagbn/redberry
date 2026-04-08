@@ -1,0 +1,42 @@
+.timeSlotsContainer {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  .slot {
+    display: flex;
+    align-items: center;
+    max-width: 172px;
+    border: 1px solid #d1d1d1;
+    padding: 15px 16px;
+    gap: 13px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    background-color: #ffffff;
+    &:hover {
+      border-color: #958fef;
+      background-color: #dddbfa;
+      p {
+        color: #4f46e5 !important;
+      }
+    }
+    .day {
+      line-height: 16.9px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #666666;
+    }
+    .time {
+      font-size: 10px;
+      line-height: 12.1px;
+    }
+    &Active {
+      border-color: #958fef;
+      background-color: #dddbfa;
+      p {
+        color: #4f46e5 !important;
+      }
+    }
+  }
+}

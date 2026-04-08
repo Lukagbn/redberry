@@ -1,0 +1,36 @@
+.sessionTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  h4 {
+    line-height: 29px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #130e67;
+  }
+  .titleWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    .titleNumber {
+      color: #130e67;
+      border: 2px solid #130e67;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 28px;
+      height: 28px;
+      span {
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
+  }
+  img {
+    display: block;
+    width: 100%;
+    max-width: 28px;
+    cursor: pointer;
+  }
+}
