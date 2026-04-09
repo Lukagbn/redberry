@@ -68,14 +68,15 @@ function page() {
           </div>
           <div className={styles.courseRating}>
             <Star
-              rate={
-                course.reviews.length > 0
+              rate={Number(
+                (course.reviews.length > 0
                   ? course.reviews.reduce(
                       (total, star) => total + star.rating,
                       0,
                     ) / course.reviews.length
                   : 0
-              }
+                ).toFixed(1),
+              )}
             />
             <div className={styles.courseName}>
               <img src="/icons/development.svg" alt="development" />

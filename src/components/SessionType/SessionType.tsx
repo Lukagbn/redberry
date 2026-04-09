@@ -78,6 +78,12 @@ interface EnrolledCourse {
   };
 }
 
+const sessionIcons: Record<string, string> = {
+  online: "/icons/online.svg",
+  offline: "/icons/calendar.svg",
+  hybrid: "/icons/hybrid.svg",
+};
+
 function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.user);
@@ -90,6 +96,9 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
   const [enrolledCourse, setEnrolledCourse] = useState<EnrolledCourse[] | null>(
     null,
   );
+  const [course, setCourse] = useState<EnrolledCourse | null>(null);
+  const sessionName = course?.schedule.sessionType.name?.toLowerCase();
+
   async function fetchWeeklySchedule() {
     try {
       const res = await fetch(
@@ -152,12 +161,62 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
     fetchEnrolled();
     if (!selectedSlot) return;
   }, [clicked, selectedSlot, sessionPrice, enrolledCourse]);
+  useEffect(() => {
+    if (enrolledCourse) {
+      const foundCourse = enrolledCourse.find(
+        (course) => course.course.id === Number(id),
+      );
+      setCourse(foundCourse ?? null);
+    }
+  }, [id, enrolledCourse]);
   return (
     <>
       <Modals type={modalType} onClose={() => setModalType("none")} />
-      {enrolledCourse ? (
+      {course ? (
         <section className={styles.sessionTypeContainer}>
-          <span>Enrolled</span>
+          <div className={styles.courseInfo}>
+            {course?.progress === 100 ? (
+              <span className={styles.completed}>Completed</span>
+            ) : (
+              <span className={styles.enrolled}>Enrolled</span>
+            )}
+            <div className={styles.infoBox}>
+              <img src="/icons/calendar.svg" alt="calendar" />
+              <p>{course?.schedule.weeklySchedule.label}</p>
+            </div>
+            <div className={styles.infoBox}>
+              <img src="/icons/clock.svg" alt="clock" />
+              <p>{course?.schedule.timeSlot.label}</p>
+            </div>
+            <div className={styles.infoBox}>
+              <img
+                src={
+                  (course?.schedule.sessionType.name &&
+                    sessionIcons[
+                      course?.schedule.sessionType.name?.toLowerCase()
+                    ]) ||
+                  "/icons/calendar.svg"
+                }
+                alt="session"
+              />
+              <p>{course?.schedule.sessionType.name}</p>
+            </div>
+            <div className={styles.infoBox}>
+              <img src="/icons/location.svg" alt="location" />
+              <p>{course?.schedule.location}</p>
+            </div>
+            <div className={styles.progressBarContainer}>
+              <div className={styles.progressBarWrapper}>
+                <p>{course?.progress}% complete</p>
+                <div className={styles.progressBar}>
+                  <span style={{ width: `${course?.progress}%` }}></span>
+                </div>
+              </div>
+              <button onClick={() => console.log(course)}>
+                Complete Course
+              </button>
+            </div>
+          </div>
         </section>
       ) : (
         <section className={styles.sessionTypeContainer}>
