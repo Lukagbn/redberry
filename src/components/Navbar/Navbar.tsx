@@ -9,19 +9,26 @@ import { auth } from "@/utils/auth";
 import Button from "../Buttons/Button/Button";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { openModal } from "@/lib/slices/modalSlice";
+import { useRouter } from "next/navigation";
 
 function Navbar() {
   auth();
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const userData = useAppSelector((state) => state.user);
   const loggedIn = !!userData;
   const NAV_LIST = [
-    { img: "/icons/stars.svg", title: "browse courses" },
+    { img: "/icons/stars.svg", title: "browse courses", action: "/courses" },
     { img: "/icons/book.svg", title: "enrolled courses" },
   ];
   const visibleNavItems = loggedIn
     ? NAV_LIST
     : NAV_LIST.filter((item) => item.title === "browse courses");
+
+  function handleAction(action: string | null) {
+    if (!action) return;
+    router.push(`${action}`);
+  }
 
   return (
     <>
@@ -41,6 +48,7 @@ function Navbar() {
               key={list.title}
               className={styles.list}
               style={loggedIn ? { maxWidth: "100%" } : { maxWidth: "240px" }}
+              onClick={() => handleAction(list.action ?? null)}
             >
               <Image
                 width={26}

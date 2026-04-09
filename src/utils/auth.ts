@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "@/lib/hooks";
 import { setUser } from "@/lib/slices/userSlice";
+import { usePathname } from "next/navigation";
 
 export function auth() {
+  const pathname = usePathname();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -20,7 +22,6 @@ export function auth() {
       const result = await res.json();
       dispatch(setUser(result.data));
     }
-
     fetchUser();
-  }, [dispatch]);
+  }, [pathname]);
 }

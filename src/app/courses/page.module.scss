@@ -1,0 +1,28 @@
+.aside {
+  display: flex;
+  flex-direction: column;
+  max-width: 309px;
+  .asideCategories {
+    width: 100%;
+  }
+  .asideFilter {
+    span {
+      padding: 7px 12px;
+      border-radius: 12px;
+      background-color: #ffffff;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      color: #666666;
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 500;
+    }
+    .category {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+  }
+}

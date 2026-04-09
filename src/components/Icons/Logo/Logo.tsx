@@ -1,5 +1,7 @@
+"use client";
 import React from "react";
 import styles from "./Logo.module.scss";
+import { useRouter } from "next/navigation";
 
 function Logo({
   width,
@@ -12,10 +14,12 @@ function Logo({
   iconWidth: string;
   borderRadius?: string;
 }) {
+  const router = useRouter();
   return (
     <div
       className={styles.logo}
       style={{ width: width, height: height, borderRadius: borderRadius }}
+      onClick={() => router.push("/")}
     >
       <svg
         width="32"
