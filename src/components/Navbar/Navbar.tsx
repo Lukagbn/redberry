@@ -61,7 +61,7 @@ function Navbar() {
           {loggedIn ? (
             <User
               src={image ?? ""}
-              profileComplete={userData?.profileComplete}
+              profileComplete={userData?.profileComplete ?? null}
             />
           ) : (
             <div className={styles.authBtnWrapper}>

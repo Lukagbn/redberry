@@ -86,8 +86,8 @@
     .enrollNow {
       margin-top: auto;
       height: 63px;
-      color: #b7b3f4;
-      background-color: #eeedfc;
+      color: #ffffff;
+      background-color: #4f46e5;
       width: 100%;
       border: none;
       outline: none;
@@ -96,6 +96,17 @@
       line-height: 24px;
       font-weight: 600;
       cursor: pointer;
+      transition: 0.2s ease-in-out;
+      &:hover {
+        background-color: #281ed2;
+      }
+      &Disabled {
+        background-color: #b7b3f4;
+        color: #eeedfc;
+        &:hover {
+          background-color: #b7b3f4;
+        }
+      }
     }
   }
 }

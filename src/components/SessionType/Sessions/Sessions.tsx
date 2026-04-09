@@ -33,7 +33,7 @@ function Sessions({
   id: string;
   alreadyClicked: number | null;
   selectedSlot: number | null;
-  onSelectPrice: (price: string) => void;
+  onSelectPrice: (price: string, courseScheduleId: number) => void;
 }) {
   const [sessions, setSessions] = useState<Sessions[] | null>(null);
   const [clicked, setClicked] = useState<number | null>(null);
@@ -77,7 +77,8 @@ function Sessions({
                 onSelectPrice(
                   session.priceModifier === "0.00"
                     ? "Included"
-                    : "+ $" + session.priceModifier,
+                    : session.priceModifier,
+                  session.courseScheduleId,
                 );
               }}
             >

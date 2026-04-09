@@ -11,7 +11,7 @@ function User({
 }: {
   margin?: string;
   src?: string;
-  profileComplete: boolean;
+  profileComplete: boolean | null;
 }) {
   const dispatch = useAppDispatch();
   return (
