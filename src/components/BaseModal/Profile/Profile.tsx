@@ -132,7 +132,7 @@ function Profile() {
   }
   useEffect(() => {
     fetchUser();
-  }, [userData]);
+  }, []);
   if (!user) return;
   return (
     <BaseModal title="Profile" onClose={handleClose} open={isOpen}>
@@ -141,7 +141,7 @@ function Profile() {
           <User
             margin="0px"
             src={imagePreview ?? user.avatar}
-            profileComplete={userData?.profileComplete}
+            profileComplete={userData?.profileComplete ?? null}
           />
           <div className={styles.usernameWrapper}>
             <h3 className={styles.username}>{user.username}</h3>

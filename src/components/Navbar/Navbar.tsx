@@ -5,18 +5,16 @@ import Logo from "../Icons/Logo/Logo";
 import Image from "next/image";
 import styles from "./Navbar.module.scss";
 import User from "../Icons/User/User";
-import { checkUser } from "@/utils/auth";
-import { usePathname } from "next/navigation";
+import { auth } from "@/utils/auth";
 import Button from "../Buttons/Button/Button";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { openModal } from "@/lib/slices/modalSlice";
 
 function Navbar() {
-  const pathname = usePathname();
+  auth();
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.user);
-  const [image, setImage] = useState<string | null>(null);
-  const [loggedIn, setLoggedIn] = useState<Boolean | false>(false);
+  const loggedIn = !!userData;
   const NAV_LIST = [
     { img: "/icons/stars.svg", title: "browse courses" },
     { img: "/icons/book.svg", title: "enrolled courses" },
@@ -24,10 +22,6 @@ function Navbar() {
   const visibleNavItems = loggedIn
     ? NAV_LIST
     : NAV_LIST.filter((item) => item.title === "browse courses");
-  useEffect(() => {
-    const user = checkUser();
-    setLoggedIn(user);
-  }, [pathname, userData]);
 
   return (
     <>
@@ -60,7 +54,7 @@ function Navbar() {
           ))}
           {loggedIn ? (
             <User
-              src={image ?? ""}
+              src={userData.avatar ?? ""}
               profileComplete={userData?.profileComplete ?? null}
             />
           ) : (

@@ -97,7 +97,8 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
     null,
   );
   const [course, setCourse] = useState<EnrolledCourse | null>(null);
-  const sessionName = course?.schedule.sessionType.name?.toLowerCase();
+  const allFieldsSelected =
+    clicked !== null && selectedSlot !== null && courseScheduleId !== null;
 
   async function fetchWeeklySchedule() {
     try {
@@ -132,7 +133,10 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
             }),
           },
         );
-        setModalType("success");
+        if (res.ok) {
+          await fetchEnrolled();
+          setModalType("enrolled");
+        }
       } catch (error) {
         console.log(error);
       }
@@ -140,6 +144,7 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
   }
   async function fetchEnrolled() {
     const token = localStorage.getItem("token");
+    if (!token) return;
     try {
       const res = await fetch(
         "https://api.redclass.redberryinternship.ge/api/enrollments",
@@ -156,22 +161,69 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
       console.log(error);
     }
   }
+  async function finishCourse() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    try {
+      const res = await fetch(
+        `https://api.redclass.redberryinternship.ge/api/enrollments/${course?.id}/complete`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (res.ok) {
+        await fetchEnrolled();
+        setModalType("success");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function handleDelete() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    try {
+      const res = await fetch(
+        `https://api.redclass.redberryinternship.ge/api/enrollments/${course?.id}`,
+        {
+          method: "Delete",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (res.ok) {
+        await fetchEnrolled();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    if (!enrolledCourse) return;
+    const foundCourse = enrolledCourse.find(
+      (course) => course.course.id === Number(id),
+    );
+    setCourse(foundCourse ?? null);
+  }, [id, enrolledCourse]);
   useEffect(() => {
     fetchWeeklySchedule();
     fetchEnrolled();
-    if (!selectedSlot) return;
-  }, [clicked, selectedSlot, sessionPrice, enrolledCourse]);
+  }, []);
+
   useEffect(() => {
-    if (enrolledCourse) {
-      const foundCourse = enrolledCourse.find(
-        (course) => course.course.id === Number(id),
-      );
-      setCourse(foundCourse ?? null);
-    }
-  }, [id, enrolledCourse]);
+    if (clicked) fetchWeeklySchedule();
+  }, [clicked]);
   return (
     <>
-      <Modals type={modalType} onClose={() => setModalType("none")} />
+      <Modals
+        type={modalType}
+        onClose={() => setModalType("none")}
+        courseTitle={course?.course.title}
+      />
       {course ? (
         <section className={styles.sessionTypeContainer}>
           <div className={styles.courseInfo}>
@@ -195,16 +247,18 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
                     sessionIcons[
                       course?.schedule.sessionType.name?.toLowerCase()
                     ]) ||
-                  "/icons/calendar.svg"
+                  "/icons/person.svg"
                 }
                 alt="session"
               />
               <p>{course?.schedule.sessionType.name}</p>
             </div>
-            <div className={styles.infoBox}>
-              <img src="/icons/location.svg" alt="location" />
-              <p>{course?.schedule.location}</p>
-            </div>
+            {course?.schedule.sessionType.name !== "online" && (
+              <div className={styles.infoBox}>
+                <img src="/icons/location.svg" alt="location" />
+                <p>{course?.schedule.location}</p>
+              </div>
+            )}
             <div className={styles.progressBarContainer}>
               <div className={styles.progressBarWrapper}>
                 <p>{course?.progress}% complete</p>
@@ -212,9 +266,15 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
                   <span style={{ width: `${course?.progress}%` }}></span>
                 </div>
               </div>
-              <button onClick={() => console.log(course)}>
-                Complete Course
-              </button>
+              {course?.progress !== 100 ? (
+                <button onClick={finishCourse}>
+                  Complete Course <img src="/icons/marker.svg" alt="marker" />
+                </button>
+              ) : (
+                <button onClick={handleDelete}>
+                  retake course <img src="/icons/retake.svg" alt="retake" />
+                </button>
+              )}
             </div>
           </div>
         </section>
@@ -287,13 +347,15 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
             </div>
             <button
               className={
-                !userData
+                !allFieldsSelected
                   ? `${styles.enrollNow} ${styles.enrollNowDisabled}`
                   : `${styles.enrollNow}`
               }
+              disabled={!!userData && !allFieldsSelected}
               onClick={() => {
                 if (!userData) {
                   dispatch(openModal("login"));
+                  return;
                 }
                 handleEnroll();
               }}
@@ -301,6 +363,43 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
               Enroll Now
             </button>
           </div>
+          {!userData && (
+            <div className={styles.warning}>
+              <div className={styles.message}>
+                <div className={styles.title}>
+                  <img src={"/icons/important.svg"} />
+                  <span>Authentication Required</span>
+                </div>
+                <p>
+                  You need sign in to your profile before enrolling in this
+                  course.
+                </p>
+              </div>
+              <button onClick={() => dispatch(openModal("login"))}>
+                Sign Up <img src="/icons/right.svg" alt="arrow" />
+              </button>
+            </div>
+          )}
+          {userData?.profileComplete === false && (
+            <div className={styles.warning}>
+              <div className={styles.message}>
+                <div className={styles.title}>
+                  <img src={"/icons/important.svg"} />
+                  <span>Complete Your Profile</span>
+                </div>
+                <p>
+                  You need to fill in your profile details before enrolling in
+                  this course.
+                </p>
+              </div>
+              <button
+                onClick={() => dispatch(openModal("profile"))}
+                style={{ maxWidth: "110px" }}
+              >
+                Complete <img src="/icons/right.svg" alt="arrow" />
+              </button>
+            </div>
+          )}
         </section>
       )}
     </>

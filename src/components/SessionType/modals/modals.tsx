@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./modals.module.scss";
 import { useAppDispatch } from "@/lib/hooks";
 import { openModal } from "@/lib/slices/modalSlice";
 
-export type ModalType = "completeProfile" | "success" | "none";
+export type ModalType = "completeProfile" | "success" | "enrolled" | "none";
 
-function Modals({ type, onClose }: { type: ModalType; onClose: () => void }) {
+function Modals({
+  type,
+  courseTitle,
+  onClose,
+}: {
+  type: ModalType;
+  courseTitle?: string;
+  onClose: () => void;
+}) {
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (type !== "none") {
+      document.documentElement.classList.add("noScroll");
+    } else {
+      document.documentElement.classList.remove("noScroll");
+    }
+    return () => {
+      document.documentElement.classList.remove("noScroll");
+    };
+  }, [type]);
   if (type === "none") return null;
-
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
@@ -47,9 +64,21 @@ function Modals({ type, onClose }: { type: ModalType; onClose: () => void }) {
               alt="success"
             />
             <h2>Congratulations!</h2>
-            <p>
-              You've completed “Advanced React & TypeScript Development” Course!
-            </p>
+            <p>You've completed {courseTitle} Course!</p>
+            <button className={styles.done} onClick={onClose}>
+              Done
+            </button>
+          </div>
+        )}
+        {type === "enrolled" && (
+          <div className={styles.wrapper}>
+            <img
+              className={styles.profile}
+              src="/icons/enrolled.svg"
+              alt="success"
+            />
+            <h2>Enrollment Confirmed!</h2>
+            <p>You've successfully enrolled to the {courseTitle} Course!</p>
             <button className={styles.done} onClick={onClose}>
               Done
             </button>
