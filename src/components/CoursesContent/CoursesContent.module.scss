@@ -124,7 +124,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        max-width: 234px;
+        padding: 7px 20px;
+        max-width: fit-content;
         position: relative;
         width: 100%;
         background-color: #ffffff;

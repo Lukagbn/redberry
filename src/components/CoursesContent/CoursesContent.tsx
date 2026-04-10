@@ -84,6 +84,7 @@ export default function CoursesContent() {
   const [cards, setCards] = useState<Course[] | null>(null);
   const [meta, setMeta] = useState<CardsMeta | null>(null);
   const [dropDown, setDropDown] = useState(false);
+  const [sortBy, setSortBy] = useState<string | "newest">("newest");
   const [instructor, setInstructor] = useState<Instructor[] | null>(null);
   async function fetchCards() {
     try {
@@ -226,17 +227,50 @@ export default function CoursesContent() {
             onClick={() => setDropDown(!dropDown)}
           >
             <p>
-              Sort By: <span>{sort}</span>
+              Sort By: <span>{sortBy}</span>
               <img src={"/icons/arrowDown.svg"} alt="arrow down" />
             </p>
             <ul style={dropDown ? { display: "block" } : { display: "none" }}>
-              <li onClick={() => handleSort("newest")}>newest</li>
-              <li onClick={() => handleSort("price_asc")}>price: ascending</li>
-              <li onClick={() => handleSort("price_desc")}>
+              <li
+                onClick={() => {
+                  handleSort("newest");
+                  setSortBy("newest");
+                }}
+              >
+                newest
+              </li>
+              <li
+                onClick={() => {
+                  handleSort("price_asc");
+                  setSortBy("price: ascending");
+                }}
+              >
+                price: ascending
+              </li>
+              <li
+                onClick={() => {
+                  handleSort("price_desc");
+                  setSortBy("price: descending");
+                }}
+              >
                 price: descending
               </li>
-              <li onClick={() => handleSort("popular")}>popular</li>
-              <li onClick={() => handleSort("title_asc")}>title: A-Z</li>
+              <li
+                onClick={() => {
+                  handleSort("popular");
+                  setSortBy("popular");
+                }}
+              >
+                popular
+              </li>
+              <li
+                onClick={() => {
+                  handleSort("title_asc");
+                  setSortBy("title: A-Z");
+                }}
+              >
+                title: A-Z
+              </li>
             </ul>
           </div>
         </div>
