@@ -54,7 +54,7 @@ interface CardsMeta {
   total: number;
 }
 
-const FILTER_CATEGORY = [
+export const ICONS = [
   { text: "Development", img: "/icons/development.svg", id: "1" },
   { text: "Design", img: "/icons/design.svg", id: "2" },
   { text: "Business", img: "/icons/business.svg", id: "3" },
@@ -178,7 +178,7 @@ export default function CoursesContent() {
           <p>categories</p>
           <div className={styles.category}>
             {category?.map((category, index) => {
-              const icon = FILTER_CATEGORY.find(
+              const icon = ICONS.find(
                 (icon) => icon.id === String(category.id),
               );
               return (
