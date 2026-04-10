@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./page.module.scss";
+import layout from "@/app/layout.module.scss";
 
 function page() {
   const [cards, setCards] = useState(null);
@@ -20,7 +21,7 @@ function page() {
     fetchCards();
   }, []);
   return (
-    <section>
+    <section className={`${styles.section} ${layout.container}`}>
       <aside className={styles.aside}>
         <div className={styles.asideTitle}>
           <h2>Filters</h2>
@@ -29,16 +30,31 @@ function page() {
         <div className={styles.asideFilter}>
           <p>categories</p>
           <div className={styles.category}>
-            <span>Development</span>
-            <span>Design</span>
-            <span>Business</span>
-            <span>Data Science</span>
-            <span>Marketing</span>
+            <span>
+              <img src={"/icons/development.svg"} alt="development" />
+              Development
+            </span>
+            <span>
+              <img src={"/icons/design.svg"} alt="design" />
+              Design
+            </span>
+            <span>
+              <img src={"/icons/business.svg"} alt="business" />
+              Business
+            </span>
+            <span>
+              <img src={"/icons/data.svg"} alt="data" />
+              Data Science
+            </span>
+            <span>
+              <img src={"/icons/marketing.svg"} alt="marketing" />
+              Marketing
+            </span>
           </div>
         </div>
         <div className={styles.asideFilter}>
           <p>Topics</p>
-          <div>
+          <div className={styles.topics}>
             <span>React</span>
             <span>Typescript</span>
             <span>Phyton</span>
@@ -53,15 +69,27 @@ function page() {
         </div>
         <div className={styles.asideFilter}>
           <p>Instructor</p>
-          <div>
-            <span>Marilyn Mango</span>
-            <span>Ryan Dorwart</span>
-            <span>Roger Calzoni</span>
-            <span>Zain Philips</span>
+          <div className={styles.instructor}>
+            <span>
+              <img src={"/marilyn.webp"} />
+              Marilyn Mango
+            </span>
+            <span>
+              <img src={"/ryan.webp"} />
+              Ryan Dorwart
+            </span>
+            <span>
+              <img src={"/roger.webp"} />
+              Roger Calzoni
+            </span>
+            <span>
+              <img src={"/zain.webp"} />
+              Zain Philips
+            </span>
           </div>
         </div>
         <hr />
-        <p>Filters Active</p>
+        <p className={styles.filetersActive}>0 Filters Active</p>
       </aside>
     </section>
   );

@@ -1,28 +1,92 @@
-.aside {
-  display: flex;
-  flex-direction: column;
-  max-width: 309px;
-  .asideCategories {
-    width: 100%;
-  }
-  .asideFilter {
-    span {
-      padding: 7px 12px;
-      border-radius: 12px;
-      background-color: #ffffff;
+.section {
+  margin-top: 64px;
+  margin-bottom: 161px;
+  .aside {
+    display: flex;
+    flex-direction: column;
+    max-width: 309px;
+    div:nth-of-type(2) {
+      margin-top: 32px;
+    }
+    .asideTitle {
       display: flex;
       align-items: center;
-      cursor: pointer;
-      color: #666666;
-      font-size: 16px;
-      line-height: 24px;
-      font-weight: 500;
+      justify-content: space-between;
+      h2 {
+        font-size: 40px;
+        line-height: 48.4px;
+        font-weight: 600;
+        color: #0a0a0a;
+      }
+      span {
+        color: #8a8a8a;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 500;
+        cursor: pointer;
+      }
     }
-    .category {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 8px;
+    .asideFilter {
+      margin-top: 56px;
+      p {
+        font-size: 18px;
+        line-height: 21.8px;
+        color: #666666;
+        font-weight: 500;
+        text-transform: capitalize;
+        margin-bottom: 24px;
+      }
+      span {
+        padding: 7px 12px;
+        border-radius: 12px;
+        background-color: #ffffff;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        color: #666666;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 500;
+      }
+      .category {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+        span {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+      }
+      .topics {
+        flex-flow: wrap;
+        gap: 8px;
+        display: flex;
+      }
+      .instructor {
+        display: flex;
+        flex-direction: column;
+        max-width: fit-content;
+        gap: 8px;
+        span {
+          max-width: fit-content;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+      }
+    }
+    hr {
+      margin-top: 24px;
+      margin-bottom: 16px;
+    }
+    .filetersActive {
+      color: #8a8a8a;
+      line-height: 16.9px;
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: capitalize;
     }
   }
 }
