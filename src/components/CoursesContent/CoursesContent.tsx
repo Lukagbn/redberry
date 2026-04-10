@@ -16,6 +16,9 @@ interface InstructorApi {
 interface TopicApi {
   data: Topic[];
 }
+interface CategoryApi {
+  data: Category[];
+}
 export interface Course {
   id: number;
   title: string;
@@ -76,6 +79,7 @@ export default function CoursesContent() {
   const [meta, setMeta] = useState<CardsMeta | null>(null);
   const [instructor, setInstructor] = useState<Instructor[] | null>(null);
   const [topics, setTopics] = useState<Topic[] | null>(null);
+  const [category, setcategory] = useState<Category[] | null>(null);
   const [dropDown, setDropDown] = useState(false);
   const [sortBy, setSortBy] = useState<string | "newest">("newest");
   async function fetchCards() {
@@ -119,6 +123,17 @@ export default function CoursesContent() {
       console.log(error);
     }
   }
+  async function fetchCategory() {
+    try {
+      const res = await fetch(
+        "https://api.redclass.redberryinternship.ge/api/categories",
+      );
+      const result: CategoryApi = await res.json();
+      setcategory(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   function handleSort(value: string) {
     router.push(`?sort=${value}&page=${page}`);
   }
@@ -140,6 +155,7 @@ export default function CoursesContent() {
     fetchCards();
     fetchInstructors();
     fetchTopics();
+    fetchCategory();
   }, [
     activeFiltersCount,
     sort,
@@ -161,20 +177,27 @@ export default function CoursesContent() {
         <div className={styles.asideFilter}>
           <p>categories</p>
           <div className={styles.category}>
-            {FILTER_CATEGORY.map((category, index) => (
-              <span
-                key={index}
-                onClick={() => updateParams("categories[]", category.id)}
-                className={
-                  selectedCategories.includes(category.id)
-                    ? `${styles.filterProp} ${styles.filterPropActive}`
-                    : `${styles.filterProp}`
-                }
-              >
-                <img src={category.img} alt={category.text} />
-                {category.text}
-              </span>
-            ))}
+            {category?.map((category, index) => {
+              const icon = FILTER_CATEGORY.find(
+                (icon) => icon.id === String(category.id),
+              );
+              return (
+                <span
+                  key={index}
+                  onClick={() =>
+                    updateParams("categories[]", String(category.id))
+                  }
+                  className={
+                    selectedCategories.includes(String(category.id))
+                      ? `${styles.filterProp} ${styles.filterPropActive}`
+                      : `${styles.filterProp}`
+                  }
+                >
+                  <img src={icon?.img} alt={category.name} />
+                  {category.name}
+                </span>
+              );
+            })}
           </div>
         </div>
         <div className={styles.asideFilter}>
