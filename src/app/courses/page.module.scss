@@ -1,6 +1,8 @@
 .section {
   margin-top: 64px;
   margin-bottom: 161px;
+  display: flex;
+  gap: 90px;
   .aside {
     display: flex;
     flex-direction: column;
@@ -87,6 +89,76 @@
       font-size: 14px;
       font-weight: 500;
       text-transform: capitalize;
+    }
+  }
+  .contentContainer {
+    width: 100%;
+    .sort {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+      height: fit-content;
+      .totalPages {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 500;
+        color: #666666;
+      }
+      .dropDown {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 234px;
+        position: relative;
+        width: 100%;
+        background-color: #ffffff;
+        height: 49px;
+        border-radius: 10px;
+        cursor: pointer;
+        p {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          font-size: 16px;
+          line-height: 24px;
+          font-weight: 500;
+          span {
+            color: #4f46e5;
+            text-transform: capitalize;
+          }
+        }
+        ul {
+          background-color: #ffffff;
+          top: 110%;
+          position: absolute;
+          list-style: none;
+          width: 100%;
+          border-radius: 10px;
+          li {
+            padding: 10px 20px;
+            text-transform: capitalize;
+            color: #666666;
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 500;
+            transition: 0.2s ease-in-out;
+            cursor: pointer;
+            &:hover {
+              background-color: #dddbfa;
+              color: #4f46e5;
+            }
+            &:nth-of-type(1) {
+              border-top-left-radius: 10px;
+              border-top-right-radius: 10px;
+            }
+            &:nth-of-type(5) {
+              border-bottom-left-radius: 10px;
+              border-bottom-right-radius: 10px;
+            }
+          }
+        }
+      }
     }
   }
 }

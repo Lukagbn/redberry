@@ -9,6 +9,7 @@ function Button({
   color,
   borderColor,
   margin,
+  fontSize,
   onClick,
 }: {
   title: string;
@@ -18,6 +19,7 @@ function Button({
   color?: string;
   borderColor?: string;
   margin?: string;
+  fontSize?: string;
   onClick?: () => void;
 }) {
   return (
@@ -30,6 +32,7 @@ function Button({
         backgroundColor: backgroundColor,
         border: borderColor,
         marginTop: margin,
+        fontSize: fontSize,
       }}
       onClick={onClick}
     >
