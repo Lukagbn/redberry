@@ -76,6 +76,10 @@ export default function CoursesContent() {
   const selectedCategories = searchParams.getAll("categories[]");
   const selectedTopics = searchParams.getAll("topics[]");
   const selectedInstructors = searchParams.getAll("instructors[]");
+  const activeFiltersCount =
+    selectedCategories.length +
+    selectedTopics.length +
+    selectedInstructors.length;
 
   const [cards, setCards] = useState<Course[] | null>(null);
   const [meta, setMeta] = useState<CardsMeta | null>(null);
@@ -132,6 +136,7 @@ export default function CoursesContent() {
     fetchCards();
     fetchInstructors();
   }, [
+    activeFiltersCount,
     sort,
     page,
     selectedCategories.join(","),
@@ -207,7 +212,9 @@ export default function CoursesContent() {
           </div>
         </div>
         <hr />
-        <p className={styles.filetersActive}>0 Filters Active</p>
+        <p className={styles.filetersActive}>
+          {activeFiltersCount} Filters Active
+        </p>
       </aside>
       <div className={styles.contentContainer}>
         <div className={styles.sort}>
