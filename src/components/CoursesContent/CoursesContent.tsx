@@ -10,6 +10,9 @@ interface CardsApi {
   data: Course[];
   meta: CardsMeta;
 }
+interface InstructorApi {
+  data: Instructor[];
+}
 export interface Course {
   id: number;
   title: string;
@@ -45,30 +48,24 @@ interface CardsMeta {
   total: number;
 }
 
-const FILTER_CATEGORY: Record<string, string>[] = [
-  { text: "Development", img: "/icons/development.svg" },
-  { text: "Design", img: "/icons/design.svg" },
-  { text: "Business", img: "/icons/business.svg" },
-  { text: "Data Science", img: "/icons/data.svg" },
-  { text: "Marketing", img: "/icons/marketing.svg" },
+const FILTER_CATEGORY = [
+  { text: "Development", img: "/icons/development.svg", id: "1" },
+  { text: "Design", img: "/icons/design.svg", id: "2" },
+  { text: "Business", img: "/icons/business.svg", id: "3" },
+  { text: "Data Science", img: "/icons/data.svg", id: "4" },
+  { text: "Marketing", img: "/icons/marketing.svg", id: "5" },
 ];
 const FILTER_TOPICS = [
-  "React",
-  "Typescript",
-  "Phyton",
-  "UX/UI",
-  "Figma",
-  "JavaScript",
-  "Node.js",
-  "Machine Learning",
-  "Seo",
-  "Analytics",
-];
-const FILTER_INSTRUCTOR: Record<string, string>[] = [
-  { name: "Marilyn Mango", img: "/marilyn.webp" },
-  { name: "Ryan Dorwart", img: "/ryan.webp" },
-  { name: "Roger Calzoni", img: "/roger.webp" },
-  { name: "Zain Philips", img: "/zain.webp" },
+  { title: "React", id: "1" },
+  { title: "Typescript", id: "2" },
+  { title: "Phyton", id: "3" },
+  { title: "UX/UI", id: "4" },
+  { title: "Figma", id: "5" },
+  { title: "JavaScript", id: "6" },
+  { title: "Node.js", id: "7" },
+  { title: "Machine Learning", id: "8" },
+  { title: "Seo", id: "9" },
+  { title: "Analytics", id: "10" },
 ];
 
 export default function CoursesContent() {
@@ -76,41 +73,94 @@ export default function CoursesContent() {
   const router = useRouter();
   const sort = searchParams.get("sort") || "newest";
   const page = Number(searchParams.get("page")) || 1;
+  const selectedCategories = searchParams.getAll("categories[]");
+  const selectedTopics = searchParams.getAll("topics[]");
+  const selectedInstructors = searchParams.getAll("instructors[]");
 
   const [cards, setCards] = useState<Course[] | null>(null);
   const [meta, setMeta] = useState<CardsMeta | null>(null);
   const [dropDown, setDropDown] = useState(false);
+  const [instructor, setInstructor] = useState<Instructor[] | null>(null);
   async function fetchCards() {
     try {
+      const params = new URLSearchParams();
+      params.set("sort", sort);
+      params.set("page", String(page));
+      selectedCategories.forEach((c) => params.append("categories[]", c));
+      selectedTopics.forEach((t) => params.append("topics[]", t));
+      selectedInstructors.forEach((I) => params.append("instructors[]", I));
+
       const res = await fetch(
-        `https://api.redclass.redberryinternship.ge/api/courses?sort=${sort}&page=${page}`,
+        `https://api.redclass.redberryinternship.ge/api/courses?${params.toString()}`,
       );
       const result: CardsApi = await res.json();
-      console.log("API Result:", result);
       setCards(result.data);
       setMeta(result.meta);
     } catch (error) {
       console.log(error);
     }
   }
+  async function fetchInstructors() {
+    try {
+      const res = await fetch(
+        "https://api.redclass.redberryinternship.ge/api/instructors",
+      );
+      const result: InstructorApi = await res.json();
+      setInstructor(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   function handleSort(value: string) {
-    router.push(`?sort=${value}&page=1`);
+    router.push(`?sort=${value}&page=${page}`);
+  }
+  function updateParams(key: string, value: string) {
+    const params = new URLSearchParams(searchParams.toString());
+    const existing = params.getAll(key);
+
+    if (existing.includes(value)) {
+      params.delete(key);
+      existing.filter((v) => v !== value).forEach((v) => params.append(key, v));
+    } else {
+      params.append(key, value);
+    }
+
+    params.set("page", "1");
+    router.push(`?${params.toString()}`);
   }
   useEffect(() => {
     fetchCards();
-  }, [sort]);
+    fetchInstructors();
+  }, [
+    sort,
+    page,
+    selectedCategories.join(","),
+    selectedTopics.join(","),
+    selectedInstructors.join(","),
+  ]);
+
   return (
     <section className={`${styles.section} ${layout.container}`}>
       <aside className={styles.aside}>
         <div className={styles.asideTitle}>
           <h2>Filters</h2>
-          <span>Clear All Filters X</span>
+          <span onClick={() => router.push("/courses")}>
+            Clear All Filters X
+          </span>
         </div>
         <div className={styles.asideFilter}>
           <p>categories</p>
           <div className={styles.category}>
             {FILTER_CATEGORY.map((category, index) => (
-              <span key={index}>
+              <span
+                key={index}
+                onClick={() => updateParams("categories[]", category.id)}
+                className={
+                  selectedCategories.includes(category.id)
+                    ? `${styles.filterProp} ${styles.filterPropActive}`
+                    : `${styles.filterProp}`
+                }
+              >
                 <img src={category.img} alt={category.text} />
                 {category.text}
               </span>
@@ -121,16 +171,36 @@ export default function CoursesContent() {
           <p>Topics</p>
           <div className={styles.topics}>
             {FILTER_TOPICS.map((topic) => (
-              <span key={topic}>{topic}</span>
+              <span
+                key={topic.id}
+                onClick={() => updateParams("topics[]", topic.id)}
+                className={
+                  selectedTopics.includes(topic.id)
+                    ? `${styles.filterProp} ${styles.filterPropActive}`
+                    : `${styles.filterProp}`
+                }
+              >
+                {topic.title}
+              </span>
             ))}
           </div>
         </div>
         <div className={styles.asideFilter}>
           <p>Instructor</p>
           <div className={styles.instructor}>
-            {FILTER_INSTRUCTOR.map((lecturer, index) => (
-              <span key={index}>
-                <img src={lecturer.img} alt={lecturer.name} />
+            {instructor?.map((lecturer, index) => (
+              <span
+                key={index}
+                onClick={() =>
+                  updateParams("instructors[]", String(lecturer.id))
+                }
+                className={
+                  selectedInstructors.includes(String(lecturer.id))
+                    ? `${styles.filterProp} ${styles.filterPropActive}`
+                    : `${styles.filterProp}`
+                }
+              >
+                <img src={lecturer.avatar} alt={lecturer.name} />
                 {lecturer.name}
               </span>
             ))}

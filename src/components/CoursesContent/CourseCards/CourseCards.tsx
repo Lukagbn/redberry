@@ -3,6 +3,7 @@ import styles from "./CourseCards.module.scss";
 import { Course } from "../CoursesContent";
 import Star from "../../Star/Star";
 import Button from "../../Buttons/Button/Button";
+import { useRouter } from "next/navigation";
 
 const CATEGORY_ICONS: Record<string, string>[] = [
   { img: "/icons/development.svg", icon: "development" },
@@ -13,6 +14,7 @@ const CATEGORY_ICONS: Record<string, string>[] = [
 ];
 
 function CourseCards({ card }: { card: Course[] | null }) {
+  const router = useRouter();
   return (
     <div className={styles.cardsWrapper}>
       {card?.map((card) => {
@@ -40,6 +42,7 @@ function CourseCards({ card }: { card: Course[] | null }) {
                   <span>${card.basePrice}</span>
                 </div>
                 <Button
+                  onClick={() => router.push(`/courses/${card.id}`)}
                   title="Details"
                   width="103px"
                   height="43px"
