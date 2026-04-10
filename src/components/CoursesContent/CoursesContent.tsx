@@ -13,6 +13,9 @@ interface CardsApi {
 interface InstructorApi {
   data: Instructor[];
 }
+interface TopicApi {
+  data: Topic[];
+}
 export interface Course {
   id: number;
   title: string;
@@ -55,18 +58,6 @@ const FILTER_CATEGORY = [
   { text: "Data Science", img: "/icons/data.svg", id: "4" },
   { text: "Marketing", img: "/icons/marketing.svg", id: "5" },
 ];
-const FILTER_TOPICS = [
-  { title: "React", id: "1" },
-  { title: "Typescript", id: "2" },
-  { title: "Phyton", id: "3" },
-  { title: "UX/UI", id: "4" },
-  { title: "Figma", id: "5" },
-  { title: "JavaScript", id: "6" },
-  { title: "Node.js", id: "7" },
-  { title: "Machine Learning", id: "8" },
-  { title: "Seo", id: "9" },
-  { title: "Analytics", id: "10" },
-];
 
 export default function CoursesContent() {
   const searchParams = useSearchParams();
@@ -83,9 +74,10 @@ export default function CoursesContent() {
 
   const [cards, setCards] = useState<Course[] | null>(null);
   const [meta, setMeta] = useState<CardsMeta | null>(null);
+  const [instructor, setInstructor] = useState<Instructor[] | null>(null);
+  const [topics, setTopics] = useState<Topic[] | null>(null);
   const [dropDown, setDropDown] = useState(false);
   const [sortBy, setSortBy] = useState<string | "newest">("newest");
-  const [instructor, setInstructor] = useState<Instructor[] | null>(null);
   async function fetchCards() {
     try {
       const params = new URLSearchParams();
@@ -116,6 +108,17 @@ export default function CoursesContent() {
       console.log(error);
     }
   }
+  async function fetchTopics() {
+    try {
+      const res = await fetch(
+        "https://api.redclass.redberryinternship.ge/api/topics",
+      );
+      const result: TopicApi = await res.json();
+      setTopics(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   function handleSort(value: string) {
     router.push(`?sort=${value}&page=${page}`);
   }
@@ -136,6 +139,7 @@ export default function CoursesContent() {
   useEffect(() => {
     fetchCards();
     fetchInstructors();
+    fetchTopics();
   }, [
     activeFiltersCount,
     sort,
@@ -176,17 +180,17 @@ export default function CoursesContent() {
         <div className={styles.asideFilter}>
           <p>Topics</p>
           <div className={styles.topics}>
-            {FILTER_TOPICS.map((topic) => (
+            {topics?.map((topic) => (
               <span
                 key={topic.id}
-                onClick={() => updateParams("topics[]", topic.id)}
+                onClick={() => updateParams("topics[]", String(topic.id))}
                 className={
-                  selectedTopics.includes(topic.id)
+                  selectedTopics.includes(String(topic.id))
                     ? `${styles.filterProp} ${styles.filterPropActive}`
                     : `${styles.filterProp}`
                 }
               >
-                {topic.title}
+                {topic.name}
               </span>
             ))}
           </div>
