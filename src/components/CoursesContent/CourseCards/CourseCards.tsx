@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./CourseCards.module.scss";
-import { Course } from "@/app/courses/page";
-import Star from "../Star/Star";
-import Button from "../Buttons/Button/Button";
+import { Course } from "../CoursesContent";
+import Star from "../../Star/Star";
+import Button from "../../Buttons/Button/Button";
 
 const CATEGORY_ICONS: Record<string, string>[] = [
   { img: "/icons/development.svg", icon: "development" },
@@ -19,7 +19,6 @@ function CourseCards({ card }: { card: Course[] | null }) {
         const icon = CATEGORY_ICONS.find(
           (icon) => icon.icon === card.category.icon,
         );
-        console.log(icon);
         return (
           <div className={styles.card} key={card.id}>
             <img src={card.image} alt={card.title} />
