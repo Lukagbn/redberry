@@ -64,7 +64,6 @@ function Login() {
         return;
       }
       localStorage.setItem("token", result.data.token);
-      // localStorage.setItem("data", JSON.stringify(result.data.user));
       handleClose();
       window.location.reload();
     } catch (error) {

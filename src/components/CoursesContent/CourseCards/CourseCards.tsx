@@ -22,7 +22,11 @@ function CourseCards({ card }: { card: Course[] | null }) {
           (icon) => icon.icon === card.category.icon,
         );
         return (
-          <div className={styles.card} key={card.id}>
+          <div
+            className={styles.card}
+            key={card.id}
+            onClick={() => router.push(`/courses/${card.id}`)}
+          >
             <img src={card.image} alt={card.title} />
             <div className={styles.cardBody}>
               <div className={styles.duration}>

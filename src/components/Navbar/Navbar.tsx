@@ -10,24 +10,33 @@ import Button from "../Buttons/Button/Button";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { openModal } from "@/lib/slices/modalSlice";
 import { useRouter } from "next/navigation";
+import EnrolledCoursesModal from "../CoursesContent/EnrolledCoursesModal/EnrolledCoursesModal";
 
 function Navbar() {
   auth();
   const dispatch = useAppDispatch();
   const router = useRouter();
   const userData = useAppSelector((state) => state.user);
+  const enrolled = useAppSelector((modal) => modal.modal.activeModal);
   const loggedIn = !!userData;
   const NAV_LIST = [
     { img: "/icons/stars.svg", title: "browse courses", action: "/courses" },
-    { img: "/icons/book.svg", title: "enrolled courses" },
+    {
+      img: "/icons/book.svg",
+      title: "enrolled courses",
+      modal: "enrolledCourses",
+    },
   ];
   const visibleNavItems = loggedIn
     ? NAV_LIST
     : NAV_LIST.filter((item) => item.title === "browse courses");
 
-  function handleAction(action: string | null) {
-    if (!action) return;
-    router.push(`${action}`);
+  function handleNavClick(item: { action?: string; modal?: string }) {
+    if (item.modal) {
+      dispatch(openModal("enrolled"));
+    } else if (item.action) {
+      router.push(item.action);
+    }
   }
 
   return (
@@ -48,7 +57,7 @@ function Navbar() {
               key={list.title}
               className={styles.list}
               style={loggedIn ? { maxWidth: "100%" } : { maxWidth: "240px" }}
-              onClick={() => handleAction(list.action ?? null)}
+              onClick={() => handleNavClick(list)}
             >
               <Image
                 width={26}
@@ -89,6 +98,7 @@ function Navbar() {
         </div>
       </header>
       <hr className={styles.hr} />
+      {enrolled === "enrolled" && <EnrolledCoursesModal />}
     </>
   );
 }
