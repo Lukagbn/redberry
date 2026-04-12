@@ -108,71 +108,108 @@
   }
   .contentContainer {
     width: 100%;
-    .sort {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      align-items: center;
-      height: fit-content;
-      .totalPages {
-        font-size: 16px;
-        line-height: 24px;
-        font-weight: 500;
-        color: #666666;
-      }
-      .dropDown {
+    .contentWrapper {
+      .sort {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 7px 20px;
-        max-width: fit-content;
-        position: relative;
+        justify-content: space-between;
         width: 100%;
-        background-color: #ffffff;
-        height: 49px;
-        border-radius: 10px;
-        cursor: pointer;
-        p {
-          display: flex;
-          align-items: center;
-          gap: 12px;
+        align-items: center;
+        height: fit-content;
+        .totalPages {
           font-size: 16px;
           line-height: 24px;
           font-weight: 500;
-          span {
-            color: #4f46e5;
-            text-transform: capitalize;
-          }
+          color: #666666;
         }
-        ul {
-          background-color: #ffffff;
-          top: 110%;
-          position: absolute;
-          list-style: none;
+        .dropDown {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 7px 20px;
+          max-width: fit-content;
+          position: relative;
           width: 100%;
+          background-color: #ffffff;
+          height: 49px;
           border-radius: 10px;
-          li {
-            padding: 10px 20px;
-            text-transform: capitalize;
-            color: #666666;
+          cursor: pointer;
+          p {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             font-size: 16px;
             line-height: 24px;
             font-weight: 500;
-            transition: 0.2s ease-in-out;
-            cursor: pointer;
-            &:hover {
-              background-color: #dddbfa;
+            span {
               color: #4f46e5;
-            }
-            &:nth-of-type(1) {
-              border-top-left-radius: 10px;
-              border-top-right-radius: 10px;
-            }
-            &:nth-of-type(5) {
-              border-bottom-left-radius: 10px;
-              border-bottom-right-radius: 10px;
+              text-transform: capitalize;
             }
           }
+          ul {
+            background-color: #ffffff;
+            top: 110%;
+            position: absolute;
+            list-style: none;
+            width: 100%;
+            border-radius: 10px;
+            li {
+              padding: 10px 20px;
+              text-transform: capitalize;
+              color: #666666;
+              font-size: 16px;
+              line-height: 24px;
+              font-weight: 500;
+              transition: 0.2s ease-in-out;
+              cursor: pointer;
+              &:hover {
+                background-color: #dddbfa;
+                color: #4f46e5;
+              }
+              &:nth-of-type(1) {
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+              }
+              &:nth-of-type(5) {
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .pagination {
+      margin-top: 32px;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+      .page {
+        height: 40px;
+        width: 40px;
+        background-color: transparent;
+        border: 1px solid #d1d1d1;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #4f46e5;
+        transition: 0.2s ease-in-out;
+        cursor: default;
+        &:not(:disabled) {
+          cursor: pointer;
+          &:hover {
+            background-color: #281ed2;
+            color: #ffffff;
+            border-color: #281ed2;
+          }
+        }
+        &Active {
+          background-color: #281ed2;
+          color: #ffffff;
+          border-color: #281ed2;
+        }
+        &:disabled:not(.pageActive) {
+          color: #d1d1d1;
         }
       }
     }

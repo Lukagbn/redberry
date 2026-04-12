@@ -137,6 +137,11 @@ export default function CoursesContent() {
   function handleSort(value: string) {
     router.push(`?sort=${value}&page=${page}`);
   }
+  function handlePageChange(newPage: number) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", String(newPage));
+    router.push(`?${params.toString()}`);
+  }
   function updateParams(key: string, value: string) {
     const params = new URLSearchParams(searchParams.toString());
     const existing = params.getAll(key);
@@ -245,63 +250,100 @@ export default function CoursesContent() {
         </p>
       </aside>
       <div className={styles.contentContainer}>
-        <div className={styles.sort}>
-          <p className={styles.totalPages}>
-            Showing {cards?.length} out of {meta?.total}
-          </p>
-          <div
-            className={styles.dropDown}
-            onClick={() => setDropDown(!dropDown)}
-          >
-            <p>
-              Sort By: <span>{sortBy}</span>
-              <img src={"/icons/arrowDown.svg"} alt="arrow down" />
+        <div className={styles.contentWrapper}>
+          <div className={styles.sort}>
+            <p className={styles.totalPages}>
+              Showing {cards?.length} out of {meta?.total}
             </p>
-            <ul style={dropDown ? { display: "block" } : { display: "none" }}>
-              <li
-                onClick={() => {
-                  handleSort("newest");
-                  setSortBy("newest");
-                }}
-              >
-                newest
-              </li>
-              <li
-                onClick={() => {
-                  handleSort("price_asc");
-                  setSortBy("price: ascending");
-                }}
-              >
-                price: ascending
-              </li>
-              <li
-                onClick={() => {
-                  handleSort("price_desc");
-                  setSortBy("price: descending");
-                }}
-              >
-                price: descending
-              </li>
-              <li
-                onClick={() => {
-                  handleSort("popular");
-                  setSortBy("popular");
-                }}
-              >
-                popular
-              </li>
-              <li
-                onClick={() => {
-                  handleSort("title_asc");
-                  setSortBy("title: A-Z");
-                }}
-              >
-                title: A-Z
-              </li>
-            </ul>
+            <div
+              className={styles.dropDown}
+              onClick={() => setDropDown(!dropDown)}
+            >
+              <p>
+                Sort By: <span>{sortBy}</span>
+                <img src={"/icons/arrowDown.svg"} alt="arrow down" />
+              </p>
+              <ul style={dropDown ? { display: "block" } : { display: "none" }}>
+                <li
+                  onClick={() => {
+                    handleSort("newest");
+                    setSortBy("newest");
+                  }}
+                >
+                  newest
+                </li>
+                <li
+                  onClick={() => {
+                    handleSort("price_asc");
+                    setSortBy("price: ascending");
+                  }}
+                >
+                  price: ascending
+                </li>
+                <li
+                  onClick={() => {
+                    handleSort("price_desc");
+                    setSortBy("price: descending");
+                  }}
+                >
+                  price: descending
+                </li>
+                <li
+                  onClick={() => {
+                    handleSort("popular");
+                    setSortBy("popular");
+                  }}
+                >
+                  popular
+                </li>
+                <li
+                  onClick={() => {
+                    handleSort("title_asc");
+                    setSortBy("title: A-Z");
+                  }}
+                >
+                  title: A-Z
+                </li>
+              </ul>
+            </div>
           </div>
+          <CourseCards card={cards} />
+        </div>{" "}
+        <div className={styles.pagination}>
+          <button
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1}
+            className={styles.page}
+          >
+            &lt;
+          </button>
+
+          {meta &&
+            Array.from({ length: meta.lastPage }, (_, i) => i + 1).map(
+              (pageNum) => (
+                <button
+                  key={pageNum}
+                  onClick={() => handlePageChange(pageNum)}
+                  disabled={page === pageNum}
+                  className={
+                    page === pageNum
+                      ? `${styles.page} ${styles.pageActive}`
+                      : styles.page
+                  }
+                >
+                  {pageNum}
+                </button>
+              ),
+            )}
+
+          <button
+            onClick={() => handlePageChange(page + 1)}
+            disabled={meta ? page === meta.lastPage : true}
+            className={styles.page}
+          >
+            &gt;
+          </button>
         </div>
-        <CourseCards card={cards} />
       </div>
     </section>
   );
