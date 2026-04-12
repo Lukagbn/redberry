@@ -156,10 +156,11 @@
         margin-top: 12px;
         display: block;
         width: 100%;
-        height: 40px;
+        height: 23px;
         background-color: #dddbfa;
         border-radius: 30px;
         transition: 0.2s ease-in-out;
+        box-shadow: 0px 4px 4px rgba($color: #000000, $alpha: 0.25);
         span {
           content: "";
           position: absolute;
