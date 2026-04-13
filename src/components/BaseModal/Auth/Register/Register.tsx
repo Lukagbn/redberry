@@ -210,13 +210,13 @@ function Register() {
       onClose={handleClose}
       text="Join and start learning today"
     >
-      <GoBack onClick={handleBack} />
+      {activeIndex > 0 && <GoBack onClick={handleBack} />}
       <div className={styles.stepper}>
         {Array.from({ length: 3 }).map((_, i) => (
           <div
             key={i}
             style={
-              i === activeIndex
+              i <= activeIndex
                 ? { backgroundColor: "#4F46E5" }
                 : { backgroundColor: "#EEEDFC" }
             }
