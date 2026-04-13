@@ -5,7 +5,7 @@ import layout from "@/app/layout.module.scss";
 import styles from "./page.module.scss";
 import Star from "@/components/Star/Star";
 import SessionType from "@/components/SessionType/SessionType";
-import { ICONS } from "@/components/CoursesContent/CoursesContent";
+import { courseIcons } from "@/utils/courseIcons";
 
 interface CourseApiResponse {
   data: CourseProps;
@@ -42,8 +42,7 @@ interface CourseProps {
 function page() {
   const { id } = useParams();
   const [course, setCourse] = useState<CourseProps | null>(null);
-  const icon = ICONS.find((icon) => icon.text === course?.category.name);
-  console.log(icon);
+  const icon = course?.category.name;
   async function fetchCourse() {
     try {
       const res = await fetch(
@@ -55,6 +54,7 @@ function page() {
       console.log(error);
     }
   }
+
   useEffect(() => {
     fetchCourse();
   }, []);
@@ -82,7 +82,7 @@ function page() {
               )}
             />
             <div className={styles.courseName}>
-              <img src={icon?.img} alt="development" />
+              {icon && courseIcons(icon)}
               <span>{course.category.name}</span>
             </div>
           </div>

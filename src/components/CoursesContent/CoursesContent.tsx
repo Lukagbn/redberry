@@ -5,6 +5,7 @@ import layout from "@/app/layout.module.scss";
 import CourseCards from "@/components/CoursesContent/CourseCards/CourseCards";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { courseIcons } from "@/utils/courseIcons";
 
 interface CardsApi {
   data: Course[];
@@ -53,14 +54,6 @@ interface CardsMeta {
   perPage: number;
   total: number;
 }
-
-export const ICONS = [
-  { text: "Development", img: "/icons/development.svg", id: "1" },
-  { text: "Design", img: "/icons/design.svg", id: "2" },
-  { text: "Business", img: "/icons/business.svg", id: "3" },
-  { text: "Data Science", img: "/icons/data.svg", id: "4" },
-  { text: "Marketing", img: "/icons/marketing.svg", id: "5" },
-];
 
 export default function CoursesContent() {
   const searchParams = useSearchParams();
@@ -183,9 +176,7 @@ export default function CoursesContent() {
           <p>categories</p>
           <div className={styles.category}>
             {category?.map((category, index) => {
-              const icon = ICONS.find(
-                (icon) => icon.id === String(category.id),
-              );
+              const icon = category.name;
               return (
                 <span
                   key={index}
@@ -198,7 +189,7 @@ export default function CoursesContent() {
                       : `${styles.filterProp}`
                   }
                 >
-                  <img src={icon?.img} alt={category.name} />
+                  {courseIcons(icon)}
                   {category.name}
                 </span>
               );

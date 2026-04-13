@@ -7,6 +7,7 @@
   display: flex;
   flex-direction: column;
   height: 576px;
+  transition: 0.2s ease-in-out;
   img {
     border-radius: 10px;
     width: 100%;
@@ -73,5 +74,8 @@
       font-weight: 600;
       color: #141414;
     }
+  }
+  &:hover {
+    box-shadow: inset 0 0 0 1px #a78bfa;
   }
 }

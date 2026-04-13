@@ -9,6 +9,7 @@
   margin-left: 13px;
   flex-shrink: 0;
   position: relative;
+  transition: transform 0.2s ease-in-out;
   img {
     position: absolute;
     width: 100%;
@@ -28,5 +29,10 @@
     &Incomplete {
       background-color: #f4a316;
     }
+  }
+  &:hover {
+    border: none;
+    outline: 2px solid #b7b3f4;
+    outline-offset: 2px;
   }
 }

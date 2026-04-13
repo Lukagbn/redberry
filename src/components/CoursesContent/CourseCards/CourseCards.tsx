@@ -4,23 +4,15 @@ import { Course } from "../CoursesContent";
 import Star from "../../Star/Star";
 import Button from "../../Buttons/Button/Button";
 import { useRouter } from "next/navigation";
-
-const CATEGORY_ICONS: Record<string, string>[] = [
-  { img: "/icons/development.svg", icon: "development" },
-  { img: "/icons/design.svg", icon: "design" },
-  { img: "/icons/business.svg", icon: "business" },
-  { img: "/icons/data.svg", icon: "data-science" },
-  { img: "/icons/marketing.svg", icon: "marketing" },
-];
+import { courseIcons } from "@/utils/courseIcons";
 
 function CourseCards({ card }: { card: Course[] | null }) {
   const router = useRouter();
+
   return (
     <div className={styles.cardsWrapper}>
       {card?.map((card) => {
-        const icon = CATEGORY_ICONS.find(
-          (icon) => icon.icon === card.category.icon,
-        );
+        const icon = card.category.name;
         return (
           <div
             className={styles.card}
@@ -37,7 +29,7 @@ function CourseCards({ card }: { card: Course[] | null }) {
               </div>
               <h3>{card.title}</h3>
               <p className={styles.category}>
-                <img src={icon?.img} alt="icon" />
+                {courseIcons(icon)}
                 {card.category.name}
               </p>
               <div className={styles.priceContainer}>
