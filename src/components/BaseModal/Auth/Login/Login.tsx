@@ -58,9 +58,7 @@ function Login() {
       );
       const result = await res.json();
       if (!res.ok) {
-        setEmailError("Email required!");
-        setPasswordError("Password required!");
-        setSubmitError("Wrong Creditails!");
+        setSubmitError("Wrong credentials!");
         return;
       }
       localStorage.setItem("token", result.data.token);
@@ -80,6 +78,14 @@ function Login() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          if (!email) {
+            setEmailError("Email required!");
+            return;
+          }
+          if (!password) {
+            setPasswordError("Password required!");
+            return;
+          }
           handleLogIn({ email, password });
         }}
       >
