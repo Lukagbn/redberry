@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./TimeSlots.module.scss";
+import DayTime from "@/components/Icons/DayTime";
 
 export interface TimeSlot {
   endTime: string;
@@ -9,17 +10,6 @@ export interface TimeSlot {
 }
 interface TimeSlotApiResponse {
   data: TimeSlot[];
-}
-
-const images: Record<string, string> = {
-  morning: "/icons/morning.svg",
-  afternoon: "/icons/afternoon.svg",
-  evening: "/icons/evening.svg",
-};
-
-function getImage(label: string): string {
-  const key = Object.keys(images).find((k) => label.toLowerCase().includes(k));
-  return key ? images[key] : "#";
 }
 
 function TimeSlots({
@@ -67,7 +57,7 @@ function TimeSlots({
                 : `${styles.slot}`
             }
           >
-            <img src={getImage(item.label)} alt={item.label} />
+            <DayTime dayTime={item.label} />
             <div>
               <p className={styles.day}>{day}</p>
               <p className={styles.time}>{time}</p>
