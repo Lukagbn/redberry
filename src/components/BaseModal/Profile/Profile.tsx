@@ -81,6 +81,7 @@ function Profile() {
       const result = await res.json();
       if (res.ok) {
         setLocalUser(result.data);
+        dispatch(setUser(result.data));
         handleClose();
       } else {
         console.log(result);
