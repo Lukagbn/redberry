@@ -9,8 +9,8 @@ import { openModal } from "@/lib/slices/modalSlice";
 import Calendar from "../Icons/Calendar";
 import SessionIcons from "../Icons/SessionIcons";
 import Clock from "../Icons/Clock";
-import Marker from "../Icons/Marker";
 import Modals, { ModalType } from "./Modals/Modals";
+import Marker from "../Icons/Marker";
 
 interface WeeklyApiResponse {
   data: WeeklySchedule[];
