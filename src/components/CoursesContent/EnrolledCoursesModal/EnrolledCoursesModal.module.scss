@@ -8,6 +8,8 @@
   z-index: 10;
   .dialog {
     position: relative;
+    display: flex;
+    flex-direction: column;
     max-width: 794px;
     left: calc(100% - 794px);
     width: 100%;
@@ -40,6 +42,7 @@
       }
     }
     .cardsWrapper {
+      height: 100%;
       display: flex;
       flex-direction: column;
       margin: 37px auto;
@@ -168,6 +171,28 @@
         }
       }
       .browseCourses {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 448px;
+        width: 100%;
+        margin: auto;
+        h2 {
+          font-size: 24px;
+          font-weight: 600;
+          line-height: 29px;
+          color: #130e67;
+        }
+        p {
+          text-align: center;
+          max-width: 275px;
+          margin: auto;
+          margin-top: 10px;
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 16.9px;
+          color: #130e67;
+        }
         button {
           margin: auto;
           margin-top: 20px;

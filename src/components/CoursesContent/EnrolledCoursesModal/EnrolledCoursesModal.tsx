@@ -13,6 +13,7 @@ import Hybrid from "@/components/Icons/Hybrid";
 import Online from "@/components/Icons/Online";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Buttons/Button/Button";
+import EmptyBox from "@/components/Icons/EmptyBox";
 
 interface EnrolledCourseApi {
   data: EnrolledCourse[];
@@ -133,14 +134,16 @@ function EnrolledCoursesModal() {
         <div className={styles.cardsWrapper}>
           {enrolled?.length === 0 ? (
             <div className={styles.browseCourses}>
-              <h2>
+              <EmptyBox />
+              <h2>No Enrolled Courses Yet</h2>
+              <p>
                 Your learning journey starts here! Browse courses to get
                 started.
-              </h2>
+              </p>
               <Button
                 title="Browse Courses"
-                width="120px"
-                height="60px"
+                width="175px"
+                height="58px"
                 onClick={() => {
                   router.push("/courses");
                   dispatch(closeModal());
