@@ -11,6 +11,8 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { openModal } from "@/lib/slices/modalSlice";
 import { useRouter } from "next/navigation";
 import EnrolledCoursesModal from "../CoursesContent/EnrolledCoursesModal/EnrolledCoursesModal";
+import Book from "../Icons/Book";
+import Stars from "../Icons/Stars";
 
 function Navbar() {
   auth();
@@ -19,10 +21,10 @@ function Navbar() {
   const userData = useAppSelector((state) => state.user);
   const enrolled = useAppSelector((modal) => modal.modal.activeModal);
   const loggedIn = !!userData;
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const NAV_LIST = [
-    { img: "/icons/stars.svg", title: "browse courses", action: "/courses" },
+    { title: "browse courses", action: "/courses" },
     {
-      img: "/icons/book.svg",
       title: "enrolled courses",
       modal: "enrolledCourses",
     },
@@ -52,20 +54,20 @@ function Navbar() {
               : { gap: "0px", maxWidth: "496px", width: "100%" }
           }
         >
-          {visibleNavItems.map((list) => (
+          {visibleNavItems.map((list, index) => (
             <div
               key={list.title}
               className={styles.list}
               style={loggedIn ? { maxWidth: "100%" } : { maxWidth: "240px" }}
               onClick={() => handleNavClick(list)}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
             >
-              <Image
-                width={26}
-                height={26}
-                alt={list.title}
-                src={list.img}
-                style={{ flexShrink: "0" }}
-              />
+              {list.title === "browse courses" ? (
+                <Stars hovered={hoveredIndex === index} />
+              ) : (
+                <Book hovered={hoveredIndex === index} />
+              )}
               <p>{list.title}</p>
             </div>
           ))}
