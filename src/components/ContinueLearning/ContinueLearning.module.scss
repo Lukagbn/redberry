@@ -1,0 +1,31 @@
+.continiue {
+  margin-top: 64px;
+  h2 {
+    font-size: 40px;
+    line-height: 48.2px;
+    font-weight: 600;
+    color: #0a0a0a;
+  }
+
+  .pickWhereLeft {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    p {
+      font-size: 18px;
+      line-height: 21.8px;
+      font-weight: 500;
+      color: #3d3d3d;
+    }
+    span {
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 24.2px;
+      font-weight: 500;
+      color: #4f46e5;
+      text-transform: capitalize;
+    }
+  }
+}

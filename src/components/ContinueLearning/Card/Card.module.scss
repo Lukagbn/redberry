@@ -1,0 +1,162 @@
+.cardWrapper {
+  display: flex;
+  margin-top: 32px;
+  gap: 24px;
+  position: relative;
+  &:has(.overlay) .card {
+    filter: blur(4px);
+    pointer-events: none;
+    user-select: none;
+  }
+  .overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    z-index: 8;
+    .signIn {
+      background-color: #ffffff;
+      border: 1px solid #adadad;
+      max-width: 418px;
+      width: 100%;
+      height: 100%;
+      padding: 27px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      border-radius: 12px;
+      justify-content: space-between;
+      .lockBg {
+        background-color: #dddbfa;
+        padding: 22px;
+        width: 74px;
+        height: 77px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+      }
+      p {
+        font-size: 16px;
+        font-weight: 500;
+        color: #0a0836;
+        line-height: 24px;
+      }
+      button {
+        max-width: 83px;
+        width: 100%;
+        height: 42px;
+        background-color: #4f46e5;
+        color: #ffffff;
+        outline: none;
+        border: none;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: 8px;
+      }
+    }
+  }
+  .card {
+    background-color: #ffffff;
+    padding: 20px;
+    width: 100%;
+    border-radius: 12px;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+    .cardInner {
+      display: flex;
+      gap: 16px;
+      img {
+        height: 123px;
+        max-width: 140px;
+        width: 100%;
+        object-fit: cover;
+        display: block;
+        border-radius: 12px;
+      }
+      .textWrapper {
+        .rating {
+          display: flex;
+          align-items: self-start;
+          justify-content: space-between;
+          p {
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 16.9px;
+            color: #8a8a8a;
+          }
+          span {
+            color: #666666;
+            margin-left: 3px;
+          }
+        }
+        h3 {
+          margin-top: 10px;
+          font-size: 20px;
+          line-height: 24px;
+          font-weight: 600;
+          color: #141414;
+        }
+      }
+    }
+    .progressBarContainer {
+      margin-top: 26px;
+      display: flex;
+      gap: 40px;
+      .progressBarWrapper {
+        width: 100%;
+        .progressBar {
+          width: 100%;
+          position: relative;
+          margin-top: 12px;
+          display: block;
+          width: 100%;
+          height: 15px;
+          background-color: #dddbfa;
+          border-radius: 30px;
+          transition: 0.2s ease-in-out;
+          box-shadow: 0px 4px 4px rgba($color: #000000, $alpha: 0.25);
+          span {
+            content: "";
+            position: absolute;
+            background-color: #4f46e5;
+            left: 0;
+            top: 0;
+            width: 0%;
+            z-index: 2;
+            height: 100%;
+            border-radius: 30px;
+          }
+        }
+      }
+      button {
+        max-width: 90px;
+        width: 100%;
+        height: 48px;
+        background-color: transparent;
+        outline: none;
+        border: none;
+        color: #4f46e5;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: 8px;
+        box-shadow: 0px 0px 0px 2px inset #958fef;
+        transition: 0.2s ease-in-out;
+        &:hover {
+          box-shadow: none;
+          color: #ffffff;
+          background-color: #4f46e5;
+        }
+      }
+    }
+    &:hover {
+      box-shadow: inset 0 0 0 1px #a78bfa;
+    }
+  }
+}

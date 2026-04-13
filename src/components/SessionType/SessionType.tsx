@@ -22,7 +22,7 @@ interface WeeklySchedule {
   days: string[];
 }
 
-interface EnrolledCourseApi {
+export interface EnrolledCourseApi {
   data: EnrolledCourse[];
 }
 export interface EnrolledCourse {

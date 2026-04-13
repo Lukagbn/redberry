@@ -12,6 +12,7 @@ import InPerson from "@/components/Icons/InPerson";
 import Hybrid from "@/components/Icons/Hybrid";
 import Online from "@/components/Icons/Online";
 import { useRouter } from "next/navigation";
+import Button from "@/components/Buttons/Button/Button";
 
 interface EnrolledCourseApi {
   data: EnrolledCourse[];
@@ -130,64 +131,87 @@ function EnrolledCoursesModal() {
           </p>
         </div>
         <div className={styles.cardsWrapper}>
-          {enrolled?.map((course) => {
-            return (
-              <div
-                className={styles.card}
-                key={course.course.title}
+          {enrolled?.length === 0 ? (
+            <div className={styles.browseCourses}>
+              <h2>
+                Your learning journey starts here! Browse courses to get
+                started.
+              </h2>
+              <Button
+                title="Browse Courses"
+                width="120px"
+                height="60px"
                 onClick={() => {
-                  router.push(`/courses/${course.course.id}`);
+                  router.push("/courses");
                   dispatch(closeModal());
                 }}
-              >
-                <div className={styles.cardInner}>
-                  <img src={course.course.image} alt={course.course.title} />
-                  <div className={styles.cardText}>
-                    <div className={styles.rating}>
+              />
+            </div>
+          ) : (
+            enrolled?.map((course) => {
+              return (
+                <div
+                  className={styles.card}
+                  key={course.course.title}
+                  onClick={() => {
+                    router.push(`/courses/${course.course.id}`);
+                    dispatch(closeModal());
+                  }}
+                >
+                  <div className={styles.cardInner}>
+                    <img src={course.course.image} alt={course.course.title} />
+                    <div className={styles.cardText}>
+                      <div className={styles.rating}>
+                        <p>
+                          Instructor{" "}
+                          <span>{course.course.instructor.name}</span>
+                        </p>
+                        <Star rate={course.course.avgRating} />
+                      </div>
+                      <h4>{course.course.title}</h4>
                       <p>
-                        Instructor <span>{course.course.instructor.name}</span>
+                        <Calendar className={styles.svg} />
+                        {course.schedule.weeklySchedule.label}
                       </p>
-                      <Star rate={course.course.avgRating} />
+                      <p>
+                        <Clock className={styles.svg} />
+                        {course.schedule.timeSlot.label}
+                      </p>
+                      <p>
+                        {checkSession(course.schedule.sessionType.name)}
+                        {course.schedule.sessionType.name}
+                      </p>
+                      {course.schedule.location && (
+                        <p>
+                          <Marker className={styles.svg} />
+                          {course.schedule.location}
+                        </p>
+                      )}
                     </div>
-                    <h4>{course.course.title}</h4>
-                    <p>
-                      <Calendar className={styles.svg} />
-                      {course.schedule.weeklySchedule.label}
-                    </p>
-                    <p>
-                      <Clock className={styles.svg} />
-                      {course.schedule.timeSlot.label}
-                    </p>
-                    <p>
-                      {checkSession(course.schedule.sessionType.name)}
-                      {course.schedule.sessionType.name}
-                    </p>
-                    {course.schedule.location && (
-                      <p>
-                        <Marker className={styles.svg} />
-                        {course.schedule.location}
-                      </p>
-                    )}
                   </div>
-                </div>
-                <div className={styles.cardFooter}>
-                  <div className={styles.progressBarContainer}>
-                    <div className={styles.progressBarWrapper}>
-                      <p>{course?.progress}% complete</p>
-                      <div className={styles.progressBar}>
-                        <span style={{ width: `${course?.progress}%` }}></span>
+                  <div className={styles.cardFooter}>
+                    <div className={styles.progressBarContainer}>
+                      <div className={styles.progressBarWrapper}>
+                        <p>{course?.progress}% complete</p>
+                        <div className={styles.progressBar}>
+                          <span
+                            style={{ width: `${course?.progress}%` }}
+                          ></span>
+                        </div>
                       </div>
                     </div>
+                    <button
+                      onClick={() =>
+                        router.push(`/courses/${course.course.id}`)
+                      }
+                    >
+                      View
+                    </button>
                   </div>
-                  <button
-                    onClick={() => router.push(`/courses/${course.course.id}`)}
-                  >
-                    View
-                  </button>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </dialog>
     </div>
