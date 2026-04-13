@@ -60,6 +60,7 @@ function Profile() {
     }
   }
   async function handleUpdate() {
+    if (username && (username.length < 3 || username.length > 50)) return;
     try {
       const formData = new FormData();
       formData.append("full_name", username);
@@ -125,11 +126,11 @@ function Profile() {
     const input = e.target.value;
     setUsername(input);
     if (input.length < 3) {
-      setUsernameError("username must be at least 3 characters!");
-      return;
+      setUsernameError("Username must be at least 3 characters!");
+    } else if (input.length > 50) {
+      setUsernameError("Username should not exceed 50 characters!");
     } else {
       setUsernameError(null);
-      return;
     }
   }
   function handlePhone(e: ChangeEvent<HTMLInputElement>) {
