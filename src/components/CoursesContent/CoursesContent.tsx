@@ -75,6 +75,7 @@ export default function CoursesContent() {
   const [category, setcategory] = useState<Category[] | null>(null);
   const [dropDown, setDropDown] = useState(false);
   const [sortBy, setSortBy] = useState<string | "newest">("newest");
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   async function fetchCards() {
     try {
@@ -189,8 +190,10 @@ export default function CoursesContent() {
                       ? `${styles.filterProp} ${styles.filterPropActive}`
                       : `${styles.filterProp}`
                   }
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseLeave={() => setHoveredIndex(null)}
                 >
-                  <CourseIcons icon={icon} />
+                  <CourseIcons icon={icon} hovered={hoveredIndex === index} />
                   {category.name}
                 </span>
               );

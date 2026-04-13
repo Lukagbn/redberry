@@ -6,6 +6,7 @@ import styles from "./page.module.scss";
 import Star from "@/components/Star/Star";
 import SessionType from "@/components/SessionType/SessionType";
 import CourseIcons from "@/components/Icons/CourseIcons";
+import Calendar from "@/components/Icons/Calendar";
 
 interface CourseApiResponse {
   data: CourseProps;
@@ -42,6 +43,7 @@ interface CourseProps {
 function page() {
   const { id } = useParams();
   const [course, setCourse] = useState<CourseProps | null>(null);
+  const [hovered, setHovered] = useState<boolean | false>(false);
   const icon = course?.category.name;
   async function fetchCourse() {
     try {
@@ -66,7 +68,7 @@ function page() {
         <img className={styles.image} src={course.image} alt={course.title} />
         <div className={styles.duration}>
           <div className={styles.calendar}>
-            <img src="/icons/calendar.svg" alt="calendar" />
+            <Calendar />
             <span>{course.durationWeeks} Weeks</span>
           </div>
           <div className={styles.courseRating}>
@@ -81,8 +83,12 @@ function page() {
                 ).toFixed(1),
               )}
             />
-            <div className={styles.courseName}>
-              {icon && <CourseIcons icon={icon} />}
+            <div
+              className={styles.courseName}
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+            >
+              {icon && <CourseIcons icon={icon} hovered={hovered} />}
               <span>{course.category.name}</span>
             </div>
           </div>

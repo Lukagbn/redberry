@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Sessions.module.scss";
+import SessionIcons from "@/components/Icons/SessionIcons";
 
 interface Sessions {
   availableSeats: number;
@@ -11,17 +12,6 @@ interface Sessions {
 }
 interface SessionApi {
   data: Sessions[];
-}
-
-const images: Record<string, string> = {
-  online: "/icons/online.svg",
-  hybrid: "/icons/hybrid.svg",
-  in_person: "/icons/person.svg",
-};
-
-function getImage(name: string): string {
-  const key = Object.keys(images).find((k) => name.toLowerCase().includes(k));
-  return key ? images[key] : "#";
 }
 
 function Sessions({
@@ -82,7 +72,7 @@ function Sessions({
                 );
               }}
             >
-              <img src={getImage(session.name)} alt={session.name} />
+              <SessionIcons session={session.name} />
               <p className={styles.name}>{session.name}</p>
               <p className={styles.location}>{location}</p>
               <p className={styles.price}>{price}</p>

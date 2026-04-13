@@ -8,6 +8,10 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { ModalType } from "./modals/modals";
 import Modals from "./modals/modals";
 import { openModal } from "@/lib/slices/modalSlice";
+import Calendar from "../Icons/Calendar";
+import SessionIcons from "../Icons/SessionIcons";
+import Clock from "../Icons/Clock";
+import Marker from "../Icons/Marker";
 
 interface WeeklyApiResponse {
   data: WeeklySchedule[];
@@ -77,12 +81,6 @@ interface EnrolledCourse {
     location: string;
   };
 }
-
-const sessionIcons: Record<string, string> = {
-  online: "/icons/online.svg",
-  offline: "/icons/calendar.svg",
-  hybrid: "/icons/hybrid.svg",
-};
 
 function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
   const dispatch = useAppDispatch();
@@ -217,6 +215,9 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
   useEffect(() => {
     if (clicked) fetchWeeklySchedule();
   }, [clicked]);
+  if (!schedule) {
+    return <div>loading...</div>;
+  }
   return (
     <>
       <Modals
@@ -233,29 +234,20 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
               <span className={styles.enrolled}>Enrolled</span>
             )}
             <div className={styles.infoBox}>
-              <img src="/icons/calendar.svg" alt="calendar" />
+              <Calendar />
               <p>{course?.schedule.weeklySchedule.label}</p>
             </div>
             <div className={styles.infoBox}>
-              <img src="/icons/clock.svg" alt="clock" />
+              <Clock />
               <p>{course?.schedule.timeSlot.label}</p>
             </div>
             <div className={styles.infoBox}>
-              <img
-                src={
-                  (course?.schedule.sessionType.name &&
-                    sessionIcons[
-                      course?.schedule.sessionType.name?.toLowerCase()
-                    ]) ||
-                  "/icons/person.svg"
-                }
-                alt="session"
-              />
+              <SessionIcons session={course.schedule.sessionType.name} />
               <p>{course?.schedule.sessionType.name}</p>
             </div>
             {course?.schedule.sessionType.name !== "online" && (
               <div className={styles.infoBox}>
-                <img src="/icons/location.svg" alt="location" />
+                <Marker />
                 <p>{course?.schedule.location}</p>
               </div>
             )}

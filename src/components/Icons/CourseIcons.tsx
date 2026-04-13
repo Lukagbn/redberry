@@ -6,28 +6,21 @@ import Development from "@/components/Icons/Development";
 import Marketing from "@/components/Icons/Marketing";
 import { useState } from "react";
 
-function CourseIcons({ icon }: { icon: string }) {
-  const [hovered, setHovered] = useState(false);
-
+function CourseIcons({ icon, hovered }: { icon: string; hovered: boolean }) {
+  const fill = hovered ? "#4F46E5" : "#525252";
   switch (icon.toLocaleLowerCase()) {
     case "development":
-      return <Development />;
+      return <Development fill={fill} />;
     case "marketing":
-      return <Marketing />;
+      return <Marketing fill={fill} />;
     case "business":
-      return (
-        <Business
-          fill={hovered ? "#4F46E5" : "#525252"}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-        />
-      );
+      return <Business fill={fill} />;
     case "design":
-      return <Design />;
+      return <Design fill={fill} />;
     case "data science":
-      return <DataScience />;
+      return <DataScience fill={fill} />;
     default:
-      return <Development />;
+      return <Development fill={fill} />;
   }
 }
 
