@@ -37,7 +37,6 @@ function Profile() {
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageError, setImageError] = useState<string | "">("");
-  const [error, setError] = useState<string | null>(null);
   const isOpen = activeModal === "profile";
   const handleClose = () => {
     dispatch(closeModal());
@@ -83,7 +82,6 @@ function Profile() {
         setLocalUser(result.data);
         handleClose();
       } else {
-        setError(result.message);
         console.log(result);
       }
       if (!username) {
@@ -97,6 +95,30 @@ function Profile() {
       }
     } catch (error) {
       console.log(error);
+    }
+  }
+  async function handleLogOut() {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(
+        "https://api.redclass.redberryinternship.ge/api/logout",
+        {
+          method: "POST",
+          headers: {
+            accept: "*/*",
+            Authorization: `Bearer ${token}`,
+          },
+          body: "",
+        },
+      );
+      if (res.ok) {
+        console.log("Logged out successfully from server");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      localStorage.removeItem("token");
+      window.location.reload();
     }
   }
   function handleuserName(e: ChangeEvent<HTMLInputElement>) {
@@ -130,6 +152,7 @@ function Profile() {
       setAgeError(null);
     }
   }
+
   useEffect(() => {
     fetchUser();
   }, []);
@@ -207,8 +230,13 @@ function Profile() {
           width="100%"
           onClick={handleUpdate}
         />
+        <Button
+          title="Log Out"
+          height="47px"
+          width="100%"
+          onClick={handleLogOut}
+        />
       </div>
-      {error && <div>{error}</div>}
     </BaseModal>
   );
 }
