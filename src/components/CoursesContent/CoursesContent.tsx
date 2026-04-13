@@ -5,7 +5,7 @@ import layout from "@/app/layout.module.scss";
 import CourseCards from "@/components/CoursesContent/CourseCards/CourseCards";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { courseIcons } from "@/utils/courseIcons";
+import CourseIcons from "../Icons/CourseIcons";
 
 interface CardsApi {
   data: Course[];
@@ -75,6 +75,7 @@ export default function CoursesContent() {
   const [category, setcategory] = useState<Category[] | null>(null);
   const [dropDown, setDropDown] = useState(false);
   const [sortBy, setSortBy] = useState<string | "newest">("newest");
+
   async function fetchCards() {
     try {
       const params = new URLSearchParams();
@@ -189,7 +190,7 @@ export default function CoursesContent() {
                       : `${styles.filterProp}`
                   }
                 >
-                  {courseIcons(icon)}
+                  <CourseIcons icon={icon} />
                   {category.name}
                 </span>
               );

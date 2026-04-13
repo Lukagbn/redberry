@@ -4,7 +4,7 @@ import { Course } from "../CoursesContent";
 import Star from "../../Star/Star";
 import Button from "../../Buttons/Button/Button";
 import { useRouter } from "next/navigation";
-import { courseIcons } from "@/utils/courseIcons";
+import CourseIcons from "@/components/Icons/CourseIcons";
 
 function CourseCards({ card }: { card: Course[] | null }) {
   const router = useRouter();
@@ -29,7 +29,7 @@ function CourseCards({ card }: { card: Course[] | null }) {
               </div>
               <h3>{card.title}</h3>
               <p className={styles.category}>
-                {courseIcons(icon)}
+                <CourseIcons icon={icon} />
                 {card.category.name}
               </p>
               <div className={styles.priceContainer}>

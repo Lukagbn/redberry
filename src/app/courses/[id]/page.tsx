@@ -5,7 +5,7 @@ import layout from "@/app/layout.module.scss";
 import styles from "./page.module.scss";
 import Star from "@/components/Star/Star";
 import SessionType from "@/components/SessionType/SessionType";
-import { courseIcons } from "@/utils/courseIcons";
+import CourseIcons from "@/components/Icons/CourseIcons";
 
 interface CourseApiResponse {
   data: CourseProps;
@@ -82,7 +82,7 @@ function page() {
               )}
             />
             <div className={styles.courseName}>
-              {icon && courseIcons(icon)}
+              {icon && <CourseIcons icon={icon} />}
               <span>{course.category.name}</span>
             </div>
           </div>
