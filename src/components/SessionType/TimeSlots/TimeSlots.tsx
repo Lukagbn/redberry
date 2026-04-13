@@ -57,7 +57,7 @@ function TimeSlots({
                 : `${styles.slot}`
             }
           >
-            <DayTime dayTime={item.label} />
+            <DayTime dayTime={day} />
             <div>
               <p className={styles.day}>{day}</p>
               <p className={styles.time}>{time}</p>

@@ -5,13 +5,12 @@ import SessionTitle from "./SessionTitle/SessionTitle";
 import TimeSlots from "./TimeSlots/TimeSlots";
 import Sessions from "./Sessions/Sessions";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { ModalType } from "./modals/modals";
-import Modals from "./modals/modals";
 import { openModal } from "@/lib/slices/modalSlice";
 import Calendar from "../Icons/Calendar";
 import SessionIcons from "../Icons/SessionIcons";
 import Clock from "../Icons/Clock";
 import Marker from "../Icons/Marker";
+import Modals, { ModalType } from "./Modals/Modals";
 
 interface WeeklyApiResponse {
   data: WeeklySchedule[];
@@ -26,7 +25,7 @@ interface WeeklySchedule {
 interface EnrolledCourseApi {
   data: EnrolledCourse[];
 }
-interface EnrolledCourse {
+export interface EnrolledCourse {
   id: number;
   quantity: number;
   totalPrice: number;
@@ -95,6 +94,10 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
     null,
   );
   const [course, setCourse] = useState<EnrolledCourse | null>(null);
+  const [conflictCourse, setConflictCourse] = useState<EnrolledCourse | null>(
+    null,
+  );
+  const [continiue, setContiniue] = useState<boolean | false>(false);
   const allFieldsSelected =
     clicked !== null && selectedSlot !== null && courseScheduleId !== null;
 
@@ -109,35 +112,46 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
       console.log(error);
     }
   }
-  async function handleEnroll() {
+  async function handleEnroll(isForced = false) {
     const token = localStorage.getItem("token");
+
     if (userData?.profileComplete === false) {
       setModalType("completeProfile");
       return;
-    } else {
-      try {
-        const res = await fetch(
-          "https://api.redclass.redberryinternship.ge/api/enrollments",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              courseId: Number(id),
-              courseScheduleId: courseScheduleId,
-              force: true,
-            }),
-          },
-        );
-        if (res.ok) {
-          await fetchEnrolled();
-          setModalType("enrolled");
-        }
-      } catch (error) {
-        console.log(error);
+    }
+    if (!isForced) {
+      const conflict = enrolledCourse?.find(
+        (enrolled) => enrolled.schedule.timeSlot.id === selectedSlot,
+      );
+
+      if (conflict) {
+        setModalType("warning");
+        setConflictCourse(conflict ?? null);
+        return;
       }
+    }
+    try {
+      const res = await fetch(
+        "https://api.redclass.redberryinternship.ge/api/enrollments",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            courseId: Number(id),
+            courseScheduleId: courseScheduleId,
+            force: isForced,
+          }),
+        },
+      );
+      if (res.ok) {
+        await fetchEnrolled();
+        setModalType("enrolled");
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
   async function fetchEnrolled() {
@@ -205,6 +219,13 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
     const foundCourse = enrolledCourse.find(
       (course) => course.course.id === Number(id),
     );
+    if (
+      enrolledCourse?.filter(
+        (schedule) => schedule.schedule.timeSlot === course?.schedule.timeSlot,
+      )
+    ) {
+      console.log("error");
+    }
     setCourse(foundCourse ?? null);
   }, [id, enrolledCourse]);
   useEffect(() => {
@@ -215,6 +236,12 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
   useEffect(() => {
     if (clicked) fetchWeeklySchedule();
   }, [clicked]);
+  useEffect(() => {
+    if (continiue === true) {
+      handleEnroll(true);
+      setContiniue(false);
+    }
+  }, [continiue]);
   if (!schedule) {
     return <div>loading...</div>;
   }
@@ -224,6 +251,8 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
         type={modalType}
         onClose={() => setModalType("none")}
         courseTitle={course?.course.title}
+        conflictCourse={conflictCourse}
+        onSendData={(data: boolean) => setContiniue(data)}
       />
       {course ? (
         <section className={styles.sessionTypeContainer}>

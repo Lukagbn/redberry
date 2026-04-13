@@ -1,20 +1,33 @@
 import React, { useEffect } from "react";
-import styles from "./modals.module.scss";
+import styles from "./Modals.module.scss";
 import { useAppDispatch } from "@/lib/hooks";
 import { openModal } from "@/lib/slices/modalSlice";
+import { EnrolledCourse } from "../SessionType";
 
-export type ModalType = "completeProfile" | "success" | "enrolled" | "none";
+export type ModalType =
+  | "completeProfile"
+  | "success"
+  | "enrolled"
+  | "warning"
+  | "none";
 
 function Modals({
   type,
   courseTitle,
   onClose,
+  conflictCourse,
+  onSendData,
 }: {
   type: ModalType;
   courseTitle?: string;
   onClose: () => void;
+  conflictCourse?: EnrolledCourse | null;
+  onSendData: (data: boolean) => void;
 }) {
   const dispatch = useAppDispatch();
+  const sendMessage = () => {
+    onSendData(true);
+  };
   useEffect(() => {
     if (type !== "none") {
       document.documentElement.classList.add("noScroll");
@@ -64,7 +77,10 @@ function Modals({
               alt="success"
             />
             <h2>Congratulations!</h2>
-            <p>You've completed {courseTitle} Course!</p>
+            <p>
+              You've completed “
+              <span className={styles.title}>{courseTitle}</span>” Course!
+            </p>
             <button className={styles.done} onClick={onClose}>
               Done
             </button>
@@ -78,10 +94,40 @@ function Modals({
               alt="success"
             />
             <h2>Enrollment Confirmed!</h2>
-            <p>You've successfully enrolled to the {courseTitle} Course!</p>
+            <p>
+              You've successfully enrolled to the “
+              <span className={styles.title}>{courseTitle}</span>” Course!
+            </p>
             <button className={styles.done} onClick={onClose}>
               Done
             </button>
+          </div>
+        )}
+        {type === "warning" && (
+          <div className={styles.wrapper}>
+            <img
+              className={styles.profile}
+              src="/icons/important.svg"
+              alt="warning"
+            />
+            <h2>Schedule Conflict</h2>
+            <p>
+              You are already enrolled in “
+              <span className={styles.title}>
+                {conflictCourse?.course.title}
+              </span>
+              ” with the same schedule:{" "}
+              {conflictCourse?.schedule.weeklySchedule.label}{" "}
+              {conflictCourse?.schedule.timeSlot.label}
+            </p>
+            <div className={styles.warningBtnWrapper}>
+              <button className={styles.continue} onClick={sendMessage}>
+                Continue Anyway
+              </button>
+              <button className={styles.close} onClick={onClose}>
+                Close
+              </button>
+            </div>
           </div>
         )}
       </div>

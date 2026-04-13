@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ModalState {
-  activeModal: "login" | "register" | "profile" | "enrolled" | null;
+  activeModal: "login" | "register" | "profile" | "enrolled" | "warning" | null;
 }
 
 const initialState: ModalState = {
@@ -14,7 +14,9 @@ const modalSlice = createSlice({
   reducers: {
     openModal: (
       state,
-      action: PayloadAction<"login" | "register" | "profile" | "enrolled">,
+      action: PayloadAction<
+        "login" | "register" | "profile" | "enrolled" | "warning"
+      >,
     ) => {
       state.activeModal = action.payload;
     },

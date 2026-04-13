@@ -100,6 +100,50 @@
           color: #4f46e5;
         }
       }
+      .warningBtnWrapper {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: auto;
+        button {
+          height: 58px;
+          width: 100%;
+          cursor: pointer;
+          font-size: 16px;
+          line-height: 24px;
+          font-weight: 500;
+          border-radius: 8px;
+          border: none;
+          transition: 0.2s ease-in-out;
+        }
+        .continue {
+          background-color: transparent;
+          color: #4f46e5;
+          border: 2px solid #958fef;
+          &:hover {
+            background-color: #4f46e5;
+            border-color: #4f46e5;
+            color: #ffffff;
+          }
+        }
+        .close {
+          background-color: #4f46e5;
+          color: #ffffff;
+          &:hover {
+            background-color: transparent;
+            color: #4f46e5;
+            box-shadow: inset 0 0 0 2px #a78bfa;
+          }
+        }
+      }
+      .title {
+        color: "#3D3D3D";
+        font-size: 20px;
+        line-height: 24px;
+        font-weight: 600;
+      }
     }
   }
 }

@@ -11,6 +11,8 @@ function DayTime({ dayTime }: { dayTime: string }) {
       return <Afternoon />;
     case "evening":
       return <Evening />;
+    default:
+      return null;
   }
 }
 
