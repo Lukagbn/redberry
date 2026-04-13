@@ -29,7 +29,7 @@ function CourseCards({ card }: { card: Course[] | null }) {
               </div>
               <h3>{card.title}</h3>
               <p className={styles.category}>
-                <CourseIcons icon={icon} />
+                <CourseIcons icon={icon} hovered={false} />
                 {card.category.name}
               </p>
               <div className={styles.priceContainer}>
