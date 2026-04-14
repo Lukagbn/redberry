@@ -7,6 +7,7 @@ import Star from "@/components/Star/Star";
 import SessionType from "@/components/SessionType/SessionType";
 import CourseIcons from "@/components/Icons/CourseIcons";
 import Calendar from "@/components/Icons/Calendar";
+import BreadCrums from "@/components/BreadCrums/BreadCrums";
 
 interface CourseApiResponse {
   data: CourseProps;
@@ -62,48 +63,51 @@ function page() {
   }, []);
   if (!course) return <div>loading...</div>;
   return (
-    <section className={`${styles.courseContainer} ${layout.container}`}>
-      <div className={styles.courseDetails}>
-        <h2>{course.title}</h2>
-        <img className={styles.image} src={course.image} alt={course.title} />
-        <div className={styles.duration}>
-          <div className={styles.calendar}>
-            <Calendar />
-            <span>{course.durationWeeks} Weeks</span>
-          </div>
-          <div className={styles.courseRating}>
-            <Star
-              rate={Number(
-                (course.reviews.length > 0
-                  ? course.reviews.reduce(
-                      (total, star) => total + star.rating,
-                      0,
-                    ) / course.reviews.length
-                  : 0
-                ).toFixed(1),
-              )}
-            />
-            <div
-              className={styles.courseName}
-              onMouseEnter={() => setHovered(true)}
-              onMouseLeave={() => setHovered(false)}
-            >
-              {icon && <CourseIcons icon={icon} hovered={hovered} />}
-              <span>{course.category.name}</span>
+    <>
+      <BreadCrums id={course.id} category={course.category.name} />
+      <section className={`${styles.courseContainer} ${layout.container}`}>
+        <div className={styles.courseDetails}>
+          <h2>{course.title}</h2>
+          <img className={styles.image} src={course.image} alt={course.title} />
+          <div className={styles.duration}>
+            <div className={styles.calendar}>
+              <Calendar />
+              <span>{course.durationWeeks} Weeks</span>
+            </div>
+            <div className={styles.courseRating}>
+              <Star
+                rate={Number(
+                  (course.reviews.length > 0
+                    ? course.reviews.reduce(
+                        (total, star) => total + star.rating,
+                        0,
+                      ) / course.reviews.length
+                    : 0
+                  ).toFixed(1),
+                )}
+              />
+              <div
+                className={styles.courseName}
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
+              >
+                {icon && <CourseIcons icon={icon} hovered={hovered} />}
+                <span>{course.category.name}</span>
+              </div>
             </div>
           </div>
+          <div className={styles.mentor}>
+            <img src={course.instructor.avatar} alt={course.instructor.name} />
+            <span>{course.instructor.name}</span>
+          </div>
+          <div className={styles.courseDescription}>
+            <h3>Course Description</h3>
+            <p>{course.description}</p>
+          </div>
         </div>
-        <div className={styles.mentor}>
-          <img src={course.instructor.avatar} alt={course.instructor.name} />
-          <span>{course.instructor.name}</span>
-        </div>
-        <div className={styles.courseDescription}>
-          <h3>Course Description</h3>
-          <p>{course.description}</p>
-        </div>
-      </div>
-      <SessionType id={id as string} basePrice={course.basePrice} />
-    </section>
+        <SessionType id={id as string} basePrice={course.basePrice} />
+      </section>
+    </>
   );
 }
 

@@ -6,6 +6,7 @@ import CourseCards from "@/components/CoursesContent/CourseCards/CourseCards";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import CourseIcons from "../Icons/CourseIcons";
+import BreadCrums from "../BreadCrums/BreadCrums";
 
 interface CardsApi {
   data: Course[];
@@ -166,180 +167,186 @@ export default function CoursesContent() {
   ]);
 
   return (
-    <section className={`${styles.section} ${layout.container}`}>
-      <aside className={styles.aside}>
-        <div className={styles.asideTitle}>
-          <h2>Filters</h2>
-          <span onClick={() => router.push("/courses")}>
-            Clear All Filters X
-          </span>
-        </div>
-        <div className={styles.asideFilter}>
-          <p>categories</p>
-          <div className={styles.category}>
-            {category?.map((category, index) => {
-              const icon = category.name;
-              return (
+    <>
+      {" "}
+      <BreadCrums />
+      <section className={`${styles.section} ${layout.container}`}>
+        <aside className={styles.aside}>
+          <div className={styles.asideTitle}>
+            <h2>Filters</h2>
+            <span onClick={() => router.push("/courses")}>
+              Clear All Filters X
+            </span>
+          </div>
+          <div className={styles.asideFilter}>
+            <p>categories</p>
+            <div className={styles.category}>
+              {category?.map((category, index) => {
+                const icon = category.name;
+                return (
+                  <span
+                    key={index}
+                    onClick={() =>
+                      updateParams("categories[]", String(category.id))
+                    }
+                    className={
+                      selectedCategories.includes(String(category.id))
+                        ? `${styles.filterProp} ${styles.filterPropActive}`
+                        : `${styles.filterProp}`
+                    }
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                  >
+                    <CourseIcons icon={icon} hovered={hoveredIndex === index} />
+                    {category.name}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+          <div className={styles.asideFilter}>
+            <p>Topics</p>
+            <div className={styles.topics}>
+              {topics?.map((topic) => (
                 <span
-                  key={index}
-                  onClick={() =>
-                    updateParams("categories[]", String(category.id))
-                  }
+                  key={topic.id}
+                  onClick={() => updateParams("topics[]", String(topic.id))}
                   className={
-                    selectedCategories.includes(String(category.id))
+                    selectedTopics.includes(String(topic.id))
                       ? `${styles.filterProp} ${styles.filterPropActive}`
                       : `${styles.filterProp}`
                   }
-                  onMouseEnter={() => setHoveredIndex(index)}
-                  onMouseLeave={() => setHoveredIndex(null)}
                 >
-                  <CourseIcons icon={icon} hovered={hoveredIndex === index} />
-                  {category.name}
+                  {topic.name}
                 </span>
-              );
-            })}
-          </div>
-        </div>
-        <div className={styles.asideFilter}>
-          <p>Topics</p>
-          <div className={styles.topics}>
-            {topics?.map((topic) => (
-              <span
-                key={topic.id}
-                onClick={() => updateParams("topics[]", String(topic.id))}
-                className={
-                  selectedTopics.includes(String(topic.id))
-                    ? `${styles.filterProp} ${styles.filterPropActive}`
-                    : `${styles.filterProp}`
-                }
-              >
-                {topic.name}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div className={styles.asideFilter}>
-          <p>Instructor</p>
-          <div className={styles.instructor}>
-            {instructor?.map((lecturer, index) => (
-              <span
-                key={index}
-                onClick={() =>
-                  updateParams("instructors[]", String(lecturer.id))
-                }
-                className={
-                  selectedInstructors.includes(String(lecturer.id))
-                    ? `${styles.filterProp} ${styles.filterPropActive}`
-                    : `${styles.filterProp}`
-                }
-              >
-                <img src={lecturer.avatar} alt={lecturer.name} />
-                {lecturer.name}
-              </span>
-            ))}
-          </div>
-        </div>
-        <hr />
-        <p className={styles.filetersActive}>
-          {activeFiltersCount} Filters Active
-        </p>
-      </aside>
-      <div className={styles.contentContainer}>
-        <div className={styles.contentWrapper}>
-          <div className={styles.sort}>
-            <p className={styles.totalPages}>
-              Showing {cards?.length} out of {meta?.total}
-            </p>
-            <div
-              className={styles.dropDown}
-              onClick={() => setDropDown(!dropDown)}
-            >
-              <p>
-                Sort By: <span>{sortBy}</span>
-                <img src={"/icons/arrowDown.svg"} alt="arrow down" />
-              </p>
-              <ul style={dropDown ? { display: "block" } : { display: "none" }}>
-                <li
-                  onClick={() => {
-                    handleSort("newest");
-                    setSortBy("newest");
-                  }}
-                >
-                  newest
-                </li>
-                <li
-                  onClick={() => {
-                    handleSort("price_asc");
-                    setSortBy("price: ascending");
-                  }}
-                >
-                  price: ascending
-                </li>
-                <li
-                  onClick={() => {
-                    handleSort("price_desc");
-                    setSortBy("price: descending");
-                  }}
-                >
-                  price: descending
-                </li>
-                <li
-                  onClick={() => {
-                    handleSort("popular");
-                    setSortBy("popular");
-                  }}
-                >
-                  popular
-                </li>
-                <li
-                  onClick={() => {
-                    handleSort("title_asc");
-                    setSortBy("title: A-Z");
-                  }}
-                >
-                  title: A-Z
-                </li>
-              </ul>
+              ))}
             </div>
           </div>
-          <CourseCards card={cards} />
-        </div>{" "}
-        <div className={styles.pagination}>
-          <button
-            onClick={() => handlePageChange(page - 1)}
-            disabled={page === 1}
-            className={styles.page}
-          >
-            &lt;
-          </button>
-
-          {meta &&
-            Array.from({ length: meta.lastPage }, (_, i) => i + 1).map(
-              (pageNum) => (
-                <button
-                  key={pageNum}
-                  onClick={() => handlePageChange(pageNum)}
-                  disabled={page === pageNum}
+          <div className={styles.asideFilter}>
+            <p>Instructor</p>
+            <div className={styles.instructor}>
+              {instructor?.map((lecturer, index) => (
+                <span
+                  key={index}
+                  onClick={() =>
+                    updateParams("instructors[]", String(lecturer.id))
+                  }
                   className={
-                    page === pageNum
-                      ? `${styles.page} ${styles.pageActive}`
-                      : styles.page
+                    selectedInstructors.includes(String(lecturer.id))
+                      ? `${styles.filterProp} ${styles.filterPropActive}`
+                      : `${styles.filterProp}`
                   }
                 >
-                  {pageNum}
-                </button>
-              ),
-            )}
+                  <img src={lecturer.avatar} alt={lecturer.name} />
+                  {lecturer.name}
+                </span>
+              ))}
+            </div>
+          </div>
+          <hr />
+          <p className={styles.filetersActive}>
+            {activeFiltersCount} Filters Active
+          </p>
+        </aside>
+        <div className={styles.contentContainer}>
+          <div className={styles.contentWrapper}>
+            <div className={styles.sort}>
+              <p className={styles.totalPages}>
+                Showing {cards?.length} out of {meta?.total}
+              </p>
+              <div
+                className={styles.dropDown}
+                onClick={() => setDropDown(!dropDown)}
+              >
+                <p>
+                  Sort By: <span>{sortBy}</span>
+                  <img src={"/icons/arrowDown.svg"} alt="arrow down" />
+                </p>
+                <ul
+                  style={dropDown ? { display: "block" } : { display: "none" }}
+                >
+                  <li
+                    onClick={() => {
+                      handleSort("newest");
+                      setSortBy("newest");
+                    }}
+                  >
+                    newest
+                  </li>
+                  <li
+                    onClick={() => {
+                      handleSort("price_asc");
+                      setSortBy("price: ascending");
+                    }}
+                  >
+                    price: ascending
+                  </li>
+                  <li
+                    onClick={() => {
+                      handleSort("price_desc");
+                      setSortBy("price: descending");
+                    }}
+                  >
+                    price: descending
+                  </li>
+                  <li
+                    onClick={() => {
+                      handleSort("popular");
+                      setSortBy("popular");
+                    }}
+                  >
+                    popular
+                  </li>
+                  <li
+                    onClick={() => {
+                      handleSort("title_asc");
+                      setSortBy("title: A-Z");
+                    }}
+                  >
+                    title: A-Z
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <CourseCards card={cards} />
+          </div>{" "}
+          <div className={styles.pagination}>
+            <button
+              onClick={() => handlePageChange(page - 1)}
+              disabled={page === 1}
+              className={styles.page}
+            >
+              &lt;
+            </button>
 
-          <button
-            onClick={() => handlePageChange(page + 1)}
-            disabled={meta ? page === meta.lastPage : true}
-            className={styles.page}
-          >
-            &gt;
-          </button>
+            {meta &&
+              Array.from({ length: meta.lastPage }, (_, i) => i + 1).map(
+                (pageNum) => (
+                  <button
+                    key={pageNum}
+                    onClick={() => handlePageChange(pageNum)}
+                    disabled={page === pageNum}
+                    className={
+                      page === pageNum
+                        ? `${styles.page} ${styles.pageActive}`
+                        : styles.page
+                    }
+                  >
+                    {pageNum}
+                  </button>
+                ),
+              )}
+
+            <button
+              onClick={() => handlePageChange(page + 1)}
+              disabled={meta ? page === meta.lastPage : true}
+              className={styles.page}
+            >
+              &gt;
+            </button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>{" "}
+    </>
   );
 }
