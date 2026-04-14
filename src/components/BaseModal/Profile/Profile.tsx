@@ -82,6 +82,7 @@ function Profile() {
       if (res.ok) {
         setLocalUser(result.data);
         dispatch(setUser(result.data));
+        alert("Profile updated successfully");
         handleClose();
       } else {
         console.log(result);
@@ -114,7 +115,7 @@ function Profile() {
         },
       );
       if (res.ok) {
-        console.log("Logged out successfully from server");
+        console.log("Logged out successfully");
       }
     } catch (error) {
       console.error(error);
@@ -138,9 +139,9 @@ function Profile() {
     const input = e.target.value.replace(/\D/g, "");
     setPhone(input);
     if (!input.startsWith("5")) {
-      setPhoneError("Number must start with 5!");
+      setPhoneError("Georgian mobile numbers must start with 5");
     } else if (input.length !== 9) {
-      setPhoneError("Invalid phone format!");
+      setPhoneError("Mobile number must be exactly 9 digits");
     } else {
       setPhoneError(null);
     }
@@ -148,8 +149,15 @@ function Profile() {
   function handleAge(e: ChangeEvent<HTMLInputElement>) {
     const input = e.target.value;
     setAge(Number(input));
-    if (Number(input) < 16) {
-      setAgeError("Your age must be at lest 16!");
+    if (input === "" || input === null) {
+      setAgeError(null);
+      return;
+    }
+    const num = parseInt(input, 10);
+    if (num < 16) {
+      setAgeError("You must be at least 16 years old to enroll");
+    } else if (num > 120) {
+      setAgeError("Please enter a valid age");
     } else {
       setAgeError(null);
     }
@@ -181,6 +189,7 @@ function Profile() {
           label="Full Name"
           placeHolder={user.username}
           input={"text"}
+          success={!!username && !usernameError}
           error={usernameError}
           onChange={handleuserName}
         />
@@ -196,6 +205,7 @@ function Profile() {
             placeHolder={String(user.mobileNumber)}
             input={"text"}
             maxLength={9}
+            success={!!phone && !phoneError}
             error={phoneError}
             onChange={handlePhone}
             value={phone}
@@ -205,7 +215,9 @@ function Profile() {
             placeHolder={String(user.age ?? 16)}
             input={"number"}
             maxWidth="85px"
+            success={!!age && !ageError}
             error={ageError}
+            value={age ? String(age) : ""}
             onChange={handleAge}
           />
         </div>

@@ -11,6 +11,8 @@ import SessionIcons from "../Icons/SessionIcons";
 import Clock from "../Icons/Clock";
 import Modals, { ModalType } from "./Modals/Modals";
 import Marker from "../Icons/Marker";
+import StarRate from "../Icons/StarRate";
+import Cross from "../Icons/Cross";
 
 interface WeeklyApiResponse {
   data: WeeklySchedule[];
@@ -100,6 +102,10 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
   const [continiue, setContiniue] = useState<boolean | false>(false);
   const allFieldsSelected =
     clicked !== null && selectedSlot !== null && courseScheduleId !== null;
+
+  const [hasRated, setHasRated] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   async function fetchWeeklySchedule() {
     try {
@@ -214,6 +220,29 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
       console.log(error);
     }
   }
+
+  async function handleRate(rating: number) {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(
+        `https://api.redclass.redberryinternship.ge/api/courses/${id}/reviews`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ rating }),
+        },
+      );
+      if (res.ok) {
+        setHasRated(true);
+        localStorage.setItem(`rated_course_${id}`, "true");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   useEffect(() => {
     if (!enrolledCourse) return;
     const foundCourse = enrolledCourse.find(
@@ -223,16 +252,17 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
       enrolledCourse?.filter(
         (schedule) => schedule.schedule.timeSlot === course?.schedule.timeSlot,
       )
-    ) {
-      console.log("error");
-    }
-    setCourse(foundCourse ?? null);
+    )
+      setCourse(foundCourse ?? null);
   }, [id, enrolledCourse]);
   useEffect(() => {
     fetchWeeklySchedule();
     fetchEnrolled();
   }, []);
-
+  useEffect(() => {
+    const rated = localStorage.getItem(`rated_course_${id}`);
+    if (rated) setHasRated(true);
+  }, [id]);
   useEffect(() => {
     if (clicked) fetchWeeklySchedule();
   }, [clicked]);
@@ -242,6 +272,7 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
       setContiniue(false);
     }
   }, [continiue]);
+
   if (!schedule) {
     return <div>loading...</div>;
   }
@@ -253,6 +284,7 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
         courseTitle={course?.course.title}
         conflictCourse={conflictCourse}
         onSendData={(data: boolean) => setContiniue(data)}
+        courseId={course?.course.id ?? 0}
       />
       {course ? (
         <section className={styles.sessionTypeContainer}>
@@ -297,6 +329,33 @@ function SessionType({ id, basePrice }: { id: string; basePrice: string }) {
                 </button>
               )}
             </div>
+            {course.progress === 100 && !hasRated && (
+              <div className={styles.starRating}>
+                <p>Rate your experience</p>
+                <Cross
+                  className={styles.cross}
+                  onClick={() => setHasRated(true)}
+                />
+                <div className={styles.starWrapper}>
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <StarRate
+                      key={i}
+                      hovered={
+                        hoveredIndex !== null
+                          ? i <= hoveredIndex
+                          : selectedIndex !== null && i <= selectedIndex
+                      }
+                      onMouseEnter={() => setHoveredIndex(i)}
+                      onMouseLeave={() => setHoveredIndex(null)}
+                      onClick={() => {
+                        setSelectedIndex(i);
+                        handleRate(i + 1);
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </section>
       ) : (

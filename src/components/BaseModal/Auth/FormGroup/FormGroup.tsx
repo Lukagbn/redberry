@@ -12,6 +12,7 @@ interface FormGroupProps {
   maxLength?: number;
   inputMode?: string;
   error?: string | null;
+  success?: boolean;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -23,6 +24,7 @@ function FormGroup({
   accept,
   maxWidth,
   maxLength,
+  success,
   error,
   onChange,
 }: FormGroupProps) {
@@ -41,14 +43,10 @@ function FormGroup({
               maxLength={maxLength}
               style={
                 error
-                  ? {
-                      border: "1.5px solid #F4161A",
-                      color: "#F4161A",
-                    }
-                  : {
-                      border: "1.5px solid #8a8a8a",
-                      color: "#8a8a8a",
-                    }
+                  ? { border: "1.5px solid #F4161A", color: "#F4161A" }
+                  : success
+                    ? { border: "1.5px solid #22c55e", color: "#8a8a8a" }
+                    : { border: "1.5px solid #8a8a8a", color: "#8a8a8a" }
               }
             />
             <svg
@@ -90,14 +88,10 @@ function FormGroup({
             maxLength={maxLength}
             style={
               error
-                ? {
-                    border: "1.5px solid #F4161A",
-                    color: "#F4161A",
-                  }
-                : {
-                    border: "1.5px solid #8a8a8a",
-                    color: "#8a8a8a",
-                  }
+                ? { border: "1.5px solid #F4161A", color: "#F4161A" }
+                : success
+                  ? { border: "1.5px solid #22c55e", color: "#8a8a8a" }
+                  : { border: "1.5px solid #8a8a8a", color: "#8a8a8a" }
             }
           />
         );
@@ -112,14 +106,10 @@ function FormGroup({
             maxLength={maxLength}
             style={
               error
-                ? {
-                    border: "1.5px solid #F4161A",
-                    color: "#F4161A",
-                  }
-                : {
-                    border: "1.5px solid #8a8a8a",
-                    color: "#8a8a8a",
-                  }
+                ? { border: "1.5px solid #F4161A", color: "#F4161A" }
+                : success
+                  ? { border: "1.5px solid #22c55e", color: "#8a8a8a" }
+                  : { border: "1.5px solid #8a8a8a", color: "#8a8a8a" }
             }
           />
         );
