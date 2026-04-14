@@ -1,44 +1,36 @@
 .carousel {
+  position: relative;
   margin-top: 64px;
-  .carouselWrapper {
-    position: relative;
-    .carouselTop {
-      top: 48px;
-      left: 48px;
-      position: absolute;
-      max-width: 1218px;
-      display: flex;
-      flex-direction: column;
-      height: 232px;
-      h2 {
-        line-height: 58.1px;
-        font-size: 48px;
-        font-weight: 800;
-        color: #ffffff;
-      }
-      p {
-        line-height: 29px;
-        font-size: 24px;
-        color: #ffffff;
-        font-weight: 300;
-        margin-top: 12px;
-      }
+  padding: 48px;
+  .textWrapper {
+    max-width: 1218px;
+    width: 100%;
+    height: 232px;
+    display: flex;
+    flex-direction: column;
+    h2 {
+      line-height: 58.1px;
+      font-size: 48px;
+      font-weight: 800;
+      color: #ffffff;
     }
-    img {
-      width: 100%;
-      display: block;
-      object-fit: cover;
+    p {
+      line-height: 29px;
+      font-size: 24px;
+      color: #ffffff;
+      font-weight: 300;
+      margin-top: 12px;
     }
   }
-}
-.btnWrapper {
-  max-width: 132px;
-  width: 100%;
-  position: absolute;
-  right: 48px;
-  bottom: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 35.1px;
+  .btnWrapper {
+    max-width: 132px;
+    width: 100%;
+    position: absolute;
+    right: 48px;
+    bottom: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 35.1px;
+  }
 }

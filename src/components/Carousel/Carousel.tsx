@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Left from "../Buttons/ArrowButtons/Left/Left";
 import Right from "../Buttons/ArrowButtons/Right/Right";
 import styles from "./Carousel.module.scss";
@@ -32,53 +32,58 @@ const CAROUSEL_CONTENT = [
 ];
 
 function Carousel() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [index, setIndex] = useState<number | 0>(0);
   const next = () => {
-    if (currentIndex >= CAROUSEL_CONTENT.length - 1) return;
-    setCurrentIndex(currentIndex + 1);
+    if (index >= CAROUSEL_CONTENT.length - 1) return;
+    setIndex(index + 1);
   };
   const prev = () => {
-    if (currentIndex === 0) return;
-    setCurrentIndex(currentIndex - 1);
+    if (index === 0) return;
+    setIndex(index - 1);
   };
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prevIndex) =>
+        prevIndex === CAROUSEL_CONTENT.length - 1 ? 0 : prevIndex + 1,
+      );
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const currentItem = CAROUSEL_CONTENT[index];
+
   return (
-    <section className={`${styles.carousel} ${layout.container}`}>
+    <section
+      style={{
+        backgroundImage: `url(${currentItem.img})`,
+        height: "420px",
+      }}
+      className={`${styles.carousel} ${layout.container}`}
+    >
       <div
-        className={styles.carouselWrapper}
-        key={CAROUSEL_CONTENT[currentIndex].header}
+        className={styles.textWrapper}
+        style={index === 2 ? { height: "203px" } : { height: "232px" }}
       >
-        <div
-          className={styles.carouselTop}
-          style={currentIndex === 2 ? { height: "203px" } : {}}
-        >
-          <h2>{CAROUSEL_CONTENT[currentIndex].header}</h2>
-          {currentIndex !== CAROUSEL_CONTENT.length - 1 ? (
-            <p>{CAROUSEL_CONTENT[currentIndex].text}</p>
-          ) : null}
-          <Button
-            title={CAROUSEL_CONTENT[currentIndex].button}
-            width="206px"
-            height="64px"
-            margin={currentIndex === 2 ? "auto" : ""}
-          />
-        </div>
-        <img
-          src={CAROUSEL_CONTENT[currentIndex].img}
-          alt={CAROUSEL_CONTENT[currentIndex].alt}
+        <h2 className={styles.carouseHeader}>{currentItem.header}</h2>
+        <p className={styles.carouselText}>{currentItem.text}</p>
+        <Button
+          margin={index === 2 ? "auto" : "38px"}
+          title={currentItem.button}
+          width="206px"
+          height="64px"
         />
-        <CarouselDots index={currentIndex} length={CAROUSEL_CONTENT.length} />
-        <div className={styles.btnWrapper}>
-          <Left
-            color={currentIndex === 0 ? "#C1BCBC" : "white"}
-            onClick={prev}
-          />
-          <Right
-            color={
-              currentIndex === CAROUSEL_CONTENT.length - 1 ? "#C1BCBC" : "white"
-            }
-            onClick={next}
-          />
-        </div>
+      </div>
+      <CarouselDots
+        index={index}
+        length={CAROUSEL_CONTENT.length}
+        setIndex={setIndex}
+      />
+      <div className={styles.btnWrapper}>
+        <Left color={index === 0 ? "#C1BCBC" : "white"} onClick={prev} />
+        <Right
+          color={index === CAROUSEL_CONTENT.length - 1 ? "#C1BCBC" : "white"}
+          onClick={next}
+        />
       </div>
     </section>
   );
