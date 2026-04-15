@@ -87,6 +87,8 @@ function Navbar() {
                 backgroundColor="transparent"
                 borderColor="2px solid #958FEF"
                 onClick={() => dispatch(openModal("login"))}
+                hoverBackground="#4F46E5"
+                hoverColor="#ffff"
               />
               <Button
                 title="sign up"
