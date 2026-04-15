@@ -206,7 +206,7 @@ function Profile() {
             input={"text"}
             maxLength={9}
             success={!!phone && !phoneError}
-            error={phoneError}
+            error={phoneError ? " " : null}
             onChange={handlePhone}
             value={phone}
           />
@@ -216,11 +216,13 @@ function Profile() {
             input={"number"}
             maxWidth="85px"
             success={!!age && !ageError}
-            error={ageError}
+            error={ageError ? " " : null}
             value={age ? String(age) : ""}
             onChange={handleAge}
           />
         </div>
+        {phoneError && <span className={styles.error}>{phoneError}</span>}
+        {ageError && <span className={styles.error}>{ageError}</span>}
         <FormGroup
           label="Upload Avatar"
           input="file"

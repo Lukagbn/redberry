@@ -43,7 +43,7 @@ function ContinueLearning() {
     if (!token) return;
     try {
       const res = await fetch(
-        "https://api.redclass.redberryinternship.ge/api/enrollments",
+        "https://api.redclass.redberryinternship.ge/api/courses/in-progress",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -51,7 +51,7 @@ function ContinueLearning() {
         },
       );
       const result: EnrolledCourseApi = await res.json();
-      const slicedResult = result.data.slice(0, 4);
+      const slicedResult = result.data;
       setCards(slicedResult);
     } catch (error) {
       console.log(error);
