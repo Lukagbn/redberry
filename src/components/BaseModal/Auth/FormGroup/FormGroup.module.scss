@@ -38,3 +38,26 @@
     height: 140px;
   }
 }
+.dropzone {
+  margin-top: 8px;
+  border: 1.5px solid #8a8a8a;
+  border-radius: 8px;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  &:hover {
+    background-color: #dddbfa;
+    border-color: #b7b3f4;
+  }
+  p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #8a8a8a;
+  }
+}

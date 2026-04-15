@@ -25,6 +25,7 @@ function Register() {
   const [image, setImage] = useState<File | null>(null);
   const [imageError, setImageError] = useState<string | "">("");
   const [submitError, setSubmitError] = useState<string>("");
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const handleClose = () => {
     dispatch(closeModal());
@@ -115,22 +116,51 @@ function Register() {
             error={userNameError}
             onChange={handleUserName}
           />
-          <FormGroup
-            label="Upload Avatar*"
-            input="file"
-            placeHolder="Username"
-            error={imageError}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              const file = e.target.files?.[0];
-              if (!file) return;
-              const allowed = ["image/png", "image/jpeg", "image/webp"];
-              if (!allowed.includes(file.type)) {
-                setImageError("Only PNG, JPG and WEBP are allowed!");
-                return;
-              }
-              setImage(file);
-            }}
-          />
+          {imagePreview ? (
+            <div className={styles.filePreview}>
+              <img
+                src={imagePreview}
+                className={styles.previewThumb}
+                alt="avatar preview"
+              />
+              <div className={styles.previewInfo}>
+                <p className={styles.previewName}>{image?.name}</p>
+                <p className={styles.previewSize}>
+                  Size ·{" "}
+                  {image ? (image.size / (1024 * 1024)).toFixed(1) + " MB" : ""}
+                </p>
+                <button
+                  className={styles.changeBtn}
+                  onClick={() => {
+                    setImage(null);
+                    setImagePreview(null);
+                  }}
+                >
+                  Change
+                </button>
+              </div>
+            </div>
+          ) : (
+            <FormGroup
+              label="Upload Avatar*"
+              input="file"
+              placeHolder=""
+              accept="image/png,image/jpeg,image/webp"
+              error={imageError}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                const allowed = ["image/png", "image/jpeg", "image/webp"];
+                if (!allowed.includes(file.type)) {
+                  setImageError("Only PNG, JPG and WEBP are allowed!");
+                  return;
+                }
+                setImageError("");
+                setImage(file);
+                setImagePreview(URL.createObjectURL(file));
+              }}
+            />
+          )}
         </div>
       </>
     );

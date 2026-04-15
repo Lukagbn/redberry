@@ -8,3 +8,49 @@
     width: 100%;
   }
 }
+.filePreview {
+  display: flex;
+  align-items: center;
+  min-height: 120px;
+  gap: 12px;
+  border: 1.5px solid #dddbfa;
+  border-radius: 12px;
+  padding: 12px 14px;
+  background-color: #eeedfc;
+  cursor: pointer;
+  .previewThumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .previewInfo {
+    flex: 1;
+    min-width: 0;
+    .previewName {
+      max-width: 176px;
+      font-size: 12px;
+      overflow: hidden;
+      color: #525252;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .previewSize {
+      text-align: left;
+      font-size: 10px;
+      line-height: 12.1px;
+      color: #adadad;
+    }
+  }
+  .changeBtn {
+    margin-top: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #4f46e5;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 12px;
+    text-decoration: underline;
+  }
+}
