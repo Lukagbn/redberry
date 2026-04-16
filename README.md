@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RedBerry
 
-## Getting Started
+A fully responsive online course platform built with Next.js and TypeScript. Features course browsing, enrollment with schedule selection, user authentication, and progress tracking.
 
-First, run the development server:
+🔗 **Live Demo:** [https://redberry-u9zb.vercel.app/courses]
+---
+
+## 📸 Screenshots
+
+### Home Page
+![Home Page](screenshots/home.png)
+
+### Browse Page
+![Browse Page](screenshots/browse.png)
+
+### Course Detail
+![Course Detail](screenshots/course-detail.png)
+
+### Enrollment
+![Enrollment](screenshots/enrollment.png)
+
+---
+
+## 🧰 Tech Stack
+
+- **Next.js** (App Router)
+- **TypeScript** — type safety across the entire codebase
+- **Redux Toolkit** — global state management (userSlice, modalSlice)
+- **SCSS Modules** — component-scoped nested styles
+
+---
+
+## ✨ Features
+
+- **Home Page** — featured courses, continue learning section with progress tracking
+- **Browse Page** — explore all available courses
+- **Course Detail Page** — schedule selection, session type, enrollment with conflict detection, star rating
+- **Authentication** — multi-step register (email → password → username/avatar), login with validation
+- **Profile Modal** — update full name, phone, age, avatar with live validation, profile completion indicator
+- **Enrollment Logic** — weekly schedule + time slot + session type selection, force enrollment on conflict
+
+---
+
+## 🧠 State Management
+
+Two Redux slices:
+
+- **userSlice** — stores authenticated user data, used for profile completion checks and access control
+- **modalSlice** — controls which modal is active across the app
+
+---
+
+## 🚀 Getting Started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📝 Notes
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- JWT token stored in `localStorage`
+- Profile must be complete before enrolling in a course
+- Schedule conflicts prompt a force enrollment confirmation
