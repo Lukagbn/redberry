@@ -29,7 +29,7 @@ A fully responsive online course platform built with Next.js and TypeScript. Fea
 
 ## 🧰 Tech Stack
 
-- **Next.js** (App Router)
+- **Next.js**
 - **TypeScript** — type safety across the entire codebase
 - **Redux Toolkit** — global state management (userSlice, modalSlice)
 - **SCSS Modules** — component-scoped nested styles
