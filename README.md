@@ -2,7 +2,7 @@
 
 A fully responsive online course platform built with Next.js and TypeScript. Features course browsing, enrollment with schedule selection, user authentication, and progress tracking.
 
-🔗 **Live Demo:** [https://redberry-u9zb.vercel.app/courses]
+🔗 **Live Demo:** [https://redberry-u9zb.vercel.app/]
 ---
 
 ## 📸 Screenshots
@@ -18,6 +18,12 @@ A fully responsive online course platform built with Next.js and TypeScript. Fea
 
 ### Enrollment
 ![Enrollment](screenshots/enrollments.png)
+
+### Login
+![Login](screenshots/login.png)
+
+### Signup
+![Signup](screenshots/signup.png)
 
 ---
 
