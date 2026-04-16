@@ -8,16 +8,16 @@ A fully responsive online course platform built with Next.js and TypeScript. Fea
 ## 📸 Screenshots
 
 ### Home Page
-![Home Page](screenshots/home.png)
+![Home Page](screenshots/dashboard.png)
 
 ### Browse Page
 ![Browse Page](screenshots/browse.png)
 
 ### Course Detail
-![Course Detail](screenshots/course-detail.png)
+![Course Detail](screenshots/details2.png)
 
 ### Enrollment
-![Enrollment](screenshots/enrollment.png)
+![Enrollment](screenshots/enrollments.png)
 
 ---
 
